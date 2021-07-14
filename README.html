@@ -28,8 +28,13 @@
 <p>To compile run this in the current directory (where the <code>README.md</code> file is):</p>
 <p><code>go build .</code></p>
 <p>You will need Go 1.16</p>
-<h2 id="example-">Example:</h2>
-<p>Calculate units</p>
+<h2 id="using-terminal-program-example-">Using Terminal Program Example:</h2>
+<p>Calculate units:</p>
+<p><code>./goalconvert -ml 200 -perc 40</code></p>
+<p>Calculate target units:</p>
+<p><code>./goalconvert -ml 200 -perc 40 -taruni 2</code></p>
+<h2 id="using-module-example-">Using Module Example:</h2>
+<p>Calculate units:</p>
 <pre><code class="language-go">package main
 
 import "github.com/powerjungle/goalconvert/alconvert"
@@ -41,6 +46,13 @@ func main() {
   alconvert.CalcGotUnits(av)
   alconvert.PrintForHumans(av)
 }</code></pre>
+<p>Calculate target units:</p>
+<pre><code class="language-go">av := alconvert.NewAV()
+av.Milliliters = 200
+av.Percent = 40
+av.UnitTarget = 2
+alconvert.CalcTargetUnits(av)
+alconvert.PrintForHumans(av)</code></pre>
 <h2 id="functions">Functions</h2>
 <ul>
 <li><p><code>NewAV()</code></p>

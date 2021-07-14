@@ -12,9 +12,19 @@ To compile run this in the current directory (where the `README.md` file is):
 
 You will need Go 1.16
 
-## Example:
+## Using Terminal Program Example:
 
-Calculate units
+Calculate units:
+
+`./goalconvert -ml 200 -perc 40`
+
+Calculate target units:
+
+`./goalconvert -ml 200 -perc 40 -taruni 2`
+
+## Using Module Example:
+
+Calculate units:
 
 ```go
 package main
@@ -28,6 +38,17 @@ func main() {
   alconvert.CalcGotUnits(av)
   alconvert.PrintForHumans(av)
 }
+```
+
+Calculate target units:
+
+```go
+av := alconvert.NewAV()
+av.Milliliters = 200
+av.Percent = 40
+av.UnitTarget = 2
+alconvert.CalcTargetUnits(av)
+alconvert.PrintForHumans(av)
 ```
 
 ## Functions

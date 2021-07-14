@@ -67,45 +67,43 @@ func ResetAV(alcval *Alcovalues) {
 // Print Alcohol Values Human Readable (sorta)
 // Use this carefully as it might give you a headache if you constantly spam it
 func PrintForHumans(alcval *Alcovalues) {
-	fmt.Println("---BEGINNING Of Printed Alcohol Values Human Readable---")
 	if alcval.Milliliters != 0 {
-		fmt.Printf("milliliters:\n%d\n", alcval.Milliliters)
+		fmt.Printf("milliliters:\n\t%d\n", alcval.Milliliters)
 	}
 	if alcval.Percent != 0 {
-		fmt.Printf("alcohol percentage (concentration):\n%g\n", alcval.Percent)
+		fmt.Printf("alcohol percentage (concentration):\n\t%g\n", alcval.Percent)
 	}
 	if alcval.UnitTarget != 0 {
-		fmt.Printf("needed units (target units):\n%g\n", alcval.UnitTarget)
+		fmt.Printf("needed units (target units):\n\t%g\n", alcval.UnitTarget)
 	}
 	if alcval.PercenTarget != 0 {
-		fmt.Printf("needed percentage (target percentage/concentration):\n%g\n", alcval.PercenTarget)
+		fmt.Printf("needed percentage (target percentage/concentration):\n\t%g\n", alcval.PercenTarget)
 	}
 	if alcval.TargetMl != 0 && alcval.TargetMl != alcval.Milliliters {
-		fmt.Printf("needed milliliters (target ml/amount):\n%d\n", alcval.TargetMl)
+		fmt.Printf("needed milliliters (target ml/amount):\n\t%d\n", alcval.TargetMl)
 	}
 	fmt.Println("------")
 	if alcval.GotUnits != 0 {
-		fmt.Printf("calculated units using milliliters and percentage:\n%g\n", alcval.GotUnits)
+		fmt.Printf("calculated units using milliliters and percentage:\n\t%g\n", alcval.GotUnits)
 	}
 	if alcval.FinalRemoveAmount != 0 {
-		fmt.Printf("calculated amount of alcohol (in ml) to remove in order to reach the target units (at the same percentage):\n%d\n", alcval.FinalRemoveAmount)
+		fmt.Printf("calculated amount of alcohol (in ml) to remove in\norder to reach the target units\n(at the same percentage):\n\t%d\n", alcval.FinalRemoveAmount)
 	}
 	if alcval.FinalTargetUnitsMl != 0 && alcval.FinalTargetUnitsMl != alcval.Milliliters {
-		fmt.Printf("total amount alcohol left after removing calculated alcohol for target units:\n%d\n", alcval.FinalTargetUnitsMl)
+		fmt.Printf("total amount alcohol left after removing\ncalculated alcohol for target units:\n\t%d\n", alcval.FinalTargetUnitsMl)
 	}
 	if alcval.FinalTargetPercent != 0 {
-		fmt.Printf("calculated amount of water (in ml) to add, to reach target percentage:\n%d\n", alcval.FinalTargetPercent)
+		fmt.Printf("calculated amount of water (in ml) to add,\nto reach target percentage:\n\t%d\n", alcval.FinalTargetPercent)
 	}
 	if alcval.FinalTargetPercentAll != 0 && alcval.FinalTargetPercentAll != alcval.Milliliters {
-		fmt.Printf("total amount alcohol left after adding calculated water:\n%d\n", alcval.FinalTargetPercentAll)
+		fmt.Printf("total amount alcohol left after\nadding calculated water:\n\t%d\n", alcval.FinalTargetPercentAll)
 	}
 	if alcval.FinalTargetMlPercent != 0 {
-		fmt.Printf("alcohol becomes this percentage(concentration) after adding water for target ml:\n%g\n", alcval.FinalTargetMlPercent)
+		fmt.Printf("alcohol becomes this percentage(concentration)\nafter adding water for target ml:\n\t%g\n", alcval.FinalTargetMlPercent)
 	}
-	if alcval.FinalTargetMlDiff != 0 && alcval.FinalTargetMlDiff != alcval.Milliliters {
-		fmt.Printf("total amount of water added in alcohol for target ml:\n%d\n", alcval.FinalTargetMlDiff)
+	if alcval.FinalTargetMlDiff != 0 {
+		fmt.Printf("total amount of water added\nin alcohol for target ml:\n\t%d\n", alcval.FinalTargetMlDiff)
 	}
-	fmt.Println("---END Of Printed Alcohol Values Human Readable---")
 }
 
 func PrintJson(alcval *Alcovalues) {

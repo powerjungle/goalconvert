@@ -3,7 +3,6 @@ package alconvert
 import (
 	"fmt"
 	"encoding/json"
-	"os"
 )
 
 type Alcovalues struct {
@@ -107,9 +106,9 @@ func PrintForHumans(alcval *Alcovalues) {
 }
 
 func PrintJson(alcval *Alcovalues) {
-    ret, err := json.Marshal(alcval)
+    ret, err := json.MarshalIndent(alcval, "", "\t")
     if err == nil {
-        os.Stdout.Write(ret)
+        fmt.Println(string(ret))
     } else {
         fmt.Println(err)
     }

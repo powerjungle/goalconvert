@@ -79,3 +79,31 @@ func TestResetAV(t *testing.T) {
 		t.Fatal("ResetAV() does not reset all values properly")
 	}
 }
+
+func BenchmarkCalcGotUnits(b *testing.B) {
+	av := NewAV()
+	for i := 0; i < b.N; i++ {
+		CalcGotUnits(av)
+	}
+}
+
+func BenchmarkCalcTargetUnits(b *testing.B) {
+	av := NewAV()
+	for i := 0; i < b.N; i++ {
+		CalcTargetUnits(av)
+	}
+}
+
+func BenchmarkCalcTargetPercent(b *testing.B) {
+	av := NewAV()
+	for i := 0; i < b.N; i++ {
+		CalcTargetPercent(av)
+	}
+}
+
+func BenchmarkCalcTargetMl(b *testing.B) {
+	av := NewAV()
+	for i := 0; i < b.N; i++ {
+		CalcTargetMl(av)
+	}
+}

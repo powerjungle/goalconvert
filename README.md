@@ -16,6 +16,10 @@ If you want to run the tests, enter the "alconvert" directory and run:
 
 `go test`
 
+To run the benchmarks, enter the "alconvert" directory and run:
+
+`go test -bench=.`
+
 ## Using Terminal Program Example:
 
 Calculate units:

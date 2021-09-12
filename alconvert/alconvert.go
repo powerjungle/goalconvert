@@ -10,7 +10,7 @@ type Alcovalues struct {
 	// values that should be used as initializing inputs////////////////////
 
 	// starting amount
-	Milliliters int16
+	Milliliters float32
 	// alcohol percentage (concentration)
 	Percent float32
 	// needed units (target units)
@@ -18,7 +18,7 @@ type Alcovalues struct {
 	// needed percentage (target percentage/concentration)
 	PercenTarget float32
 	// needed milliliters (target ml/amount)
-	TargetMl int16
+	TargetMl float32
 	////////////////////////////////////////////////////////////////////////
 
 	// values that are set by the functions in this file///////////////////
@@ -26,18 +26,18 @@ type Alcovalues struct {
 	// the calculated units using the present Ml and Percent
 	GotUnits float32
 	// calculated milliliters needed for target units at same concentration
-	FinalTargetUnitsMl int16
+	FinalTargetUnitsMl float32
 	// calculated amount to remove, to get to FinalTargetUnitsMl
 	// this could be a negative number indicating amount to add
-	FinalRemoveAmount int16
+	FinalRemoveAmount float32
 	// amount of water (in ml) to add in order to reach final_target_percent_all
-	FinalTargetPercent int16
+	FinalTargetPercent float32
 	// total amount after adding water for target percent
-	FinalTargetPercentAll int16
+	FinalTargetPercentAll float32
 	// if water is added this is the percent it becomes
 	FinalTargetMlPercent float32
 	// the difference between starting ml and target ml
-	FinalTargetMlDiff int16
+	FinalTargetMlDiff float32
 	////////////////////////////////////////////////////////////////////////
 }
 
@@ -68,7 +68,7 @@ func ResetAV(alcval *Alcovalues) {
 // Use this carefully as it might give you a headache if you constantly spam it
 func PrintForHumans(alcval *Alcovalues) {
 	if alcval.Milliliters != 0 {
-		fmt.Printf("milliliters:\n\t%d\n", alcval.Milliliters)
+		fmt.Printf("milliliters:\n\t%g\n", alcval.Milliliters)
 	}
 	if alcval.Percent != 0 {
 		fmt.Printf("alcohol percentage (concentration):\n\t%g\n", alcval.Percent)
@@ -80,29 +80,29 @@ func PrintForHumans(alcval *Alcovalues) {
 		fmt.Printf("needed percentage (target percentage/concentration):\n\t%g\n", alcval.PercenTarget)
 	}
 	if alcval.TargetMl != 0 && alcval.TargetMl != alcval.Milliliters {
-		fmt.Printf("needed milliliters (target ml/amount):\n\t%d\n", alcval.TargetMl)
+		fmt.Printf("needed milliliters (target ml/amount):\n\t%g\n", alcval.TargetMl)
 	}
 	fmt.Println("------")
 	if alcval.GotUnits != 0 {
 		fmt.Printf("calculated units using milliliters and percentage:\n\t%g\n", alcval.GotUnits)
 	}
 	if alcval.FinalRemoveAmount != 0 {
-		fmt.Printf("calculated amount of alcohol (in ml) to remove in\norder to reach the target units\n(at the same percentage):\n\t%d\n", alcval.FinalRemoveAmount)
+		fmt.Printf("calculated amount of alcohol (in ml) to remove in\norder to reach the target units\n(at the same percentage):\n\t%g\n", alcval.FinalRemoveAmount)
 	}
 	if alcval.FinalTargetUnitsMl != 0 && alcval.FinalTargetUnitsMl != alcval.Milliliters {
-		fmt.Printf("total amount alcohol left after removing\ncalculated alcohol for target units:\n\t%d\n", alcval.FinalTargetUnitsMl)
+		fmt.Printf("total amount alcohol left after removing\ncalculated alcohol for target units:\n\t%g\n", alcval.FinalTargetUnitsMl)
 	}
 	if alcval.FinalTargetPercent != 0 {
-		fmt.Printf("calculated amount of water (in ml) to add,\nto reach target percentage:\n\t%d\n", alcval.FinalTargetPercent)
+		fmt.Printf("calculated amount of water (in ml) to add,\nto reach target percentage:\n\t%g\n", alcval.FinalTargetPercent)
 	}
 	if alcval.FinalTargetPercentAll != 0 && alcval.FinalTargetPercentAll != alcval.Milliliters {
-		fmt.Printf("total amount alcohol left after\nadding calculated water:\n\t%d\n", alcval.FinalTargetPercentAll)
+		fmt.Printf("total amount alcohol left after\nadding calculated water:\n\t%g\n", alcval.FinalTargetPercentAll)
 	}
 	if alcval.FinalTargetMlPercent != 0 {
 		fmt.Printf("alcohol becomes this percentage(concentration)\nafter adding water for target ml:\n\t%g\n", alcval.FinalTargetMlPercent)
 	}
 	if alcval.FinalTargetMlDiff != 0 {
-		fmt.Printf("total amount of water added\nin alcohol for target ml:\n\t%d\n", alcval.FinalTargetMlDiff)
+		fmt.Printf("total amount of water added\nin alcohol for target ml:\n\t%g\n", alcval.FinalTargetMlDiff)
 	}
 }
 
@@ -116,25 +116,38 @@ func PrintJSON(alcval *Alcovalues) {
 	}
 }
 
-// CalcGotUnits calculate units from the basic milliliters and percentage in the Alcovalues struct
+// CalcGotUnits calculate units from the basic milliliters and
+// percentage in the Alcovalues struct
 func CalcGotUnits(alcval *Alcovalues) {
-	alcval.GotUnits = (float32(alcval.Milliliters) * (alcval.Percent / 100)) / 10
+	if alcval.Percent != 0 {
+		alcval.GotUnits = (alcval.Milliliters * (alcval.Percent / 100)) / 10
+	}
 }
 
-// CalcTargetUnits calculate amount of alcohol that needs to be removed so that the target units can be reached
+// CalcTargetUnits calculate amount of alcohol that needs to be
+// removed so that the target units can be reached
 func CalcTargetUnits(alcval *Alcovalues) {
-	alcval.FinalTargetUnitsMl = int16((alcval.UnitTarget * 10) / (alcval.Percent / 100))
+	if alcval.UnitTarget != 0 || alcval.Percent != 0 {
+		alcval.FinalTargetUnitsMl = (alcval.UnitTarget * 10) / (alcval.Percent / 100)
+	}
+
 	alcval.FinalRemoveAmount = alcval.Milliliters - alcval.FinalTargetUnitsMl
 }
 
-// CalcTargetPercent calculate amount of alcohol (diluted) that needs to be reached so that the target percentage is reached
+// CalcTargetPercent calculate amount of alcohol (diluted) that needs
+// to be reached so that the target percentage is reached
 func CalcTargetPercent(alcval *Alcovalues) {
-	alcval.FinalTargetPercent = int16((alcval.Percent/alcval.PercenTarget)*float32(alcval.Milliliters) - float32(alcval.Milliliters))
+	if alcval.Percent != 0 || alcval.PercenTarget != 0 {
+		alcval.FinalTargetPercent = (alcval.Percent/alcval.PercenTarget)*alcval.Milliliters - alcval.Milliliters
+	}
 	alcval.FinalTargetPercentAll = alcval.FinalTargetPercent + alcval.Milliliters
 }
 
-// CalcTargetMl calculate the amount of dilution and final percentage if we want to reach the target milliliters
+// CalcTargetMl calculate the amount of dilution and final percentage
+// if we want to reach the target milliliters
 func CalcTargetMl(alcval *Alcovalues) {
-	alcval.FinalTargetMlPercent = (float32(alcval.Milliliters) / float32(alcval.TargetMl)) * alcval.Percent
+	if alcval.Milliliters != 0 || alcval.TargetMl != 0 {
+		alcval.FinalTargetMlPercent = (alcval.Milliliters / alcval.TargetMl) * alcval.Percent
+	}
 	alcval.FinalTargetMlDiff = alcval.TargetMl - alcval.Milliliters
 }

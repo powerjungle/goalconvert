@@ -1,10 +1,11 @@
 package alconvert
 
 import (
-	"fmt"
 	"encoding/json"
+	"fmt"
 )
 
+// Alcovalues contains all of the variables used when calculating and initial setup
 type Alcovalues struct {
 	// values that should be used as initializing inputs////////////////////
 
@@ -40,12 +41,12 @@ type Alcovalues struct {
 	////////////////////////////////////////////////////////////////////////
 }
 
-// Create a new instance of Alcovalues
+// NewAV Create a new instance of Alcovalues
 func NewAV() *Alcovalues {
 	return &Alcovalues{}
 }
 
-// Reset values from an existing instance by going through all fields
+// ResetAV Reset values from an existing instance by going through all fields
 // No need for a new instance every time you need a fresh calculation
 func ResetAV(alcval *Alcovalues) {
 	alcval.Milliliters = 0
@@ -63,7 +64,7 @@ func ResetAV(alcval *Alcovalues) {
 	alcval.FinalTargetMlDiff = 0
 }
 
-// Print Alcohol Values Human Readable (sorta)
+// PrintForHumans Print Alcohol Values Human Readable (sorta)
 // Use this carefully as it might give you a headache if you constantly spam it
 func PrintForHumans(alcval *Alcovalues) {
 	if alcval.Milliliters != 0 {
@@ -105,33 +106,34 @@ func PrintForHumans(alcval *Alcovalues) {
 	}
 }
 
-func PrintJson(alcval *Alcovalues) {
-    ret, err := json.MarshalIndent(alcval, "", "\t")
-    if err == nil {
-        fmt.Println(string(ret))
-    } else {
-        fmt.Println(err)
-    }
+// PrintJSON prints the Alcovalues in json format
+func PrintJSON(alcval *Alcovalues) {
+	ret, err := json.MarshalIndent(alcval, "", "\t")
+	if err == nil {
+		fmt.Println(string(ret))
+	} else {
+		fmt.Println(err)
+	}
 }
 
-// calculate units from the basic milliliters and percentage in the Alcovalues struct
+// CalcGotUnits calculate units from the basic milliliters and percentage in the Alcovalues struct
 func CalcGotUnits(alcval *Alcovalues) {
 	alcval.GotUnits = (float32(alcval.Milliliters) * (alcval.Percent / 100)) / 10
 }
 
-// calculate amount of alcohol that needs to be removed so that the target units can be reached
+// CalcTargetUnits calculate amount of alcohol that needs to be removed so that the target units can be reached
 func CalcTargetUnits(alcval *Alcovalues) {
 	alcval.FinalTargetUnitsMl = int16((alcval.UnitTarget * 10) / (alcval.Percent / 100))
 	alcval.FinalRemoveAmount = alcval.Milliliters - alcval.FinalTargetUnitsMl
 }
 
-// calculate amount of alcohol (diluted) that needs to be reached so that the target percentage is reached
+// CalcTargetPercent calculate amount of alcohol (diluted) that needs to be reached so that the target percentage is reached
 func CalcTargetPercent(alcval *Alcovalues) {
-	alcval.FinalTargetPercent = int16((alcval.Percent / alcval.PercenTarget) * float32(alcval.Milliliters) - float32(alcval.Milliliters))
+	alcval.FinalTargetPercent = int16((alcval.Percent/alcval.PercenTarget)*float32(alcval.Milliliters) - float32(alcval.Milliliters))
 	alcval.FinalTargetPercentAll = alcval.FinalTargetPercent + alcval.Milliliters
 }
 
-// calculate the amount of dilution and final percentage if we want to reach the target milliliters
+// CalcTargetMl calculate the amount of dilution and final percentage if we want to reach the target milliliters
 func CalcTargetMl(alcval *Alcovalues) {
 	alcval.FinalTargetMlPercent = (float32(alcval.Milliliters) / float32(alcval.TargetMl)) * alcval.Percent
 	alcval.FinalTargetMlDiff = alcval.TargetMl - alcval.Milliliters

@@ -8,9 +8,13 @@ To use the terminal program, after compiling just do:
 
 To compile run this in the current directory (where the `README.md` file is):
 
-`go build .`
+`go build`
 
 You will need Go 1.16
+
+If you want to run the tests, enter the "alconvert" directory and run:
+
+`go test`
 
 ## Using Terminal Program Example:
 

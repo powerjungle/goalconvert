@@ -7,11 +7,11 @@ import (
 )
 
 var (
-	ml          = flag.Int("ml", 0, "input milliliters\na.k.a. 'Milliliters'")
+	ml          = flag.Float64("ml", 0, "input milliliters\na.k.a. 'Milliliters'")
 	perc        = flag.Float64("perc", 0, "input percentage (concentration)\na.k.a. 'Percent'")
 	taruni      = flag.Float64("taruni", 0, "needed units (target units)\na.k.a. 'UnitTarget'")
 	tarperc     = flag.Float64("tarperc", 0, "needed percentage (target percentage/concentration)\na.k.a. 'PercenTarget'")
-	tarml       = flag.Int("tarml", 0, "needed milliliters (target ml/amount)\na.k.a. 'TargetMl'")
+	tarml       = flag.Float64("tarml", 0, "needed milliliters (target ml/amount)\na.k.a. 'TargetMl'")
 	calcuni     = flag.Bool("calcuni", false, "calculate the units by using ml and perc\na.k.a. 'CalcGotUnits()'")
 	calctaruni  = flag.Bool("calctaruni", false, "calculate the target units by using ml, perc and taruni\na.k.a. 'CalcTargetUnits()'")
 	calctarperc = flag.Bool("calctarperc", false, "calculate the target percentage by using ml, perc and tarperc\na.k.a. 'CalcTargetPercent()'")
@@ -24,11 +24,11 @@ func main() {
 
 	av := alconvert.NewAV()
 
-	av.Milliliters = int16(*ml)
+	av.Milliliters = float32(*ml)
 	av.Percent = float32(*perc)
 	av.UnitTarget = float32(*taruni)
 	av.PercenTarget = float32(*tarperc)
-	av.TargetMl = int16(*tarml)
+	av.TargetMl = float32(*tarml)
 
 	if *calcuni || *ml != 0 && *perc != 0 {
 		alconvert.CalcGotUnits(av)

@@ -83,6 +83,8 @@ func TestResetAV(t *testing.T) {
 func BenchmarkCalcGotUnits(b *testing.B) {
 	av := NewAV()
 	for i := 0; i < b.N; i++ {
+		av.Milliliters = float32(i)
+		av.Percent = float32(i)
 		CalcGotUnits(av)
 	}
 }
@@ -90,6 +92,9 @@ func BenchmarkCalcGotUnits(b *testing.B) {
 func BenchmarkCalcTargetUnits(b *testing.B) {
 	av := NewAV()
 	for i := 0; i < b.N; i++ {
+		av.Milliliters = float32(i)
+		av.Percent = float32(i)
+		av.UnitTarget = float32(i)
 		CalcTargetUnits(av)
 	}
 }
@@ -97,6 +102,9 @@ func BenchmarkCalcTargetUnits(b *testing.B) {
 func BenchmarkCalcTargetPercent(b *testing.B) {
 	av := NewAV()
 	for i := 0; i < b.N; i++ {
+		av.Milliliters = float32(i)
+		av.Percent = float32(i)
+		av.PercenTarget = float32(i)
 		CalcTargetPercent(av)
 	}
 }
@@ -104,6 +112,9 @@ func BenchmarkCalcTargetPercent(b *testing.B) {
 func BenchmarkCalcTargetMl(b *testing.B) {
 	av := NewAV()
 	for i := 0; i < b.N; i++ {
+		av.Milliliters = float32(i)
+		av.Percent = float32(i)
+		av.TargetMl = float32(i)
 		CalcTargetMl(av)
 	}
 }

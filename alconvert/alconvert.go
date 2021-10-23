@@ -127,7 +127,7 @@ func CalcGotUnits(alcval *Alcovalues) {
 // CalcTargetUnits calculate amount of alcohol that needs to be
 // removed so that the target units can be reached
 func CalcTargetUnits(alcval *Alcovalues) {
-	if alcval.UnitTarget != 0 || alcval.Percent != 0 {
+	if alcval.UnitTarget != 0 && alcval.Percent != 0 {
 		alcval.FinalTargetUnitsMl = (alcval.UnitTarget * 10) / (alcval.Percent / 100)
 	}
 
@@ -137,7 +137,7 @@ func CalcTargetUnits(alcval *Alcovalues) {
 // CalcTargetPercent calculate amount of alcohol (diluted) that needs
 // to be reached so that the target percentage is reached
 func CalcTargetPercent(alcval *Alcovalues) {
-	if alcval.Percent != 0 || alcval.PercenTarget != 0 {
+	if alcval.Percent != 0 && alcval.PercenTarget != 0 {
 		alcval.FinalTargetPercent = (alcval.Percent/alcval.PercenTarget)*alcval.Milliliters - alcval.Milliliters
 	}
 	alcval.FinalTargetPercentAll = alcval.FinalTargetPercent + alcval.Milliliters
@@ -146,7 +146,7 @@ func CalcTargetPercent(alcval *Alcovalues) {
 // CalcTargetMl calculate the amount of dilution and final percentage
 // if we want to reach the target milliliters
 func CalcTargetMl(alcval *Alcovalues) {
-	if alcval.Milliliters != 0 || alcval.TargetMl != 0 {
+	if alcval.Milliliters != 0 && alcval.TargetMl != 0 {
 		alcval.FinalTargetMlPercent = (alcval.Milliliters / alcval.TargetMl) * alcval.Percent
 	}
 	alcval.FinalTargetMlDiff = alcval.TargetMl - alcval.Milliliters

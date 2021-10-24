@@ -10,7 +10,7 @@ To compile run this in the current directory (where the `README.md` file is):
 
 `go build`
 
-You will need Go 1.16
+You will need Go 1.16 or later
 
 If you want to run the tests, enter the "alconvert" directory and run:
 
@@ -141,7 +141,7 @@ Used for calculation results (unexported) and only used internally
 
 - `finalTargetMlPercent`
 
-  - Alcohol become this percentage after adding water for `TargetMl`
+  - Alcohol becomes this percentage after adding water for `TargetMl`
 
 - `finalTargetMlDiff`
 

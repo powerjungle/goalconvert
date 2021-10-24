@@ -11,13 +11,13 @@ func checkAllZero(alcval *Alcovalues) bool {
 		alcval.UnitTarget == 0 &&
 		alcval.PercenTarget == 0 &&
 		alcval.TargetMl == 0 &&
-		alcval.GotUnits == 0 &&
-		alcval.FinalTargetUnitsMl == 0 &&
-		alcval.FinalRemoveAmount == 0 &&
-		alcval.FinalTargetPercent == 0 &&
-		alcval.FinalTargetPercentAll == 0 &&
-		alcval.FinalTargetMlPercent == 0 &&
-		alcval.FinalTargetMlDiff == 0 {
+		alcval.gotUnits == 0 &&
+		alcval.finalTargetUnitsMl == 0 &&
+		alcval.finalRemoveAmount == 0 &&
+		alcval.finalTargetPercent == 0 &&
+		alcval.finalTargetPercentAll == 0 &&
+		alcval.finalTargetMlPercent == 0 &&
+		alcval.finalTargetMlDiff == 0 {
 		return true
 	}
 	fmt.Println(alcval)
@@ -64,13 +64,13 @@ func TestResetAV(t *testing.T) {
 	av.PercenTarget = 4
 	av.TargetMl = 5
 
-	av.GotUnits = 6
-	av.FinalTargetUnitsMl = 7
-	av.FinalRemoveAmount = 8
-	av.FinalTargetPercent = 9
-	av.FinalTargetPercentAll = 10
-	av.FinalTargetMlPercent = 11
-	av.FinalTargetMlDiff = 12
+	av.gotUnits = 6
+	av.finalTargetUnitsMl = 7
+	av.finalRemoveAmount = 8
+	av.finalTargetPercent = 9
+	av.finalTargetPercentAll = 10
+	av.finalTargetMlPercent = 11
+	av.finalTargetMlDiff = 12
 
 	ResetAV(av)
 

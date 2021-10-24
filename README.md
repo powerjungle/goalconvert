@@ -117,32 +117,32 @@ Used to initialize calculations
 
   - Milliliters you want to reach by using `CalcTargetMl()`
 
-Used for calculation results
+Used for calculation results (unexported) and only used internally
 
-- `GotUnits`
+- `gotUnits`
 
   - The units calculated from `Milliliters` and `Percent` by using `CalcGotUnits()`
 
-- `FinalTargetUnitsMl`
+- `finalTargetUnitsMl`
 
   - Amount of alcohol left after removing `FinalRemoveAmount` from `Milliliters` to reach `UnitTarget`
 
-- `FinalRemoveAmount`
+- `finalRemoveAmount`
 
   - Amount of alcohol to be removed in order to reach `UnitTarget`
 
-- `FinalTargetPercent`
+- `finalTargetPercent`
 
   - Amount of water to add in order to reach `PercenTarget`
 
-- `FinalTargetPercentAll`
+- `finalTargetPercentAll`
 
   - Diluted alcohol left after adding `FinalTargetPercent` to reach `PercenTarget`
 
-- `FinalTargetMlPercent`
+- `finalTargetMlPercent`
 
   - Alcohol become this percentage after adding water for `TargetMl`
 
-- `FinalTargetMlDiff`
+- `finalTargetMlDiff`
 
   - Total amount of water that needs to be added to reach `TargetMl`

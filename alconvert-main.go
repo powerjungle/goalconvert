@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-
 	"github.com/powerjungle/goalconvert/alconvert"
 )
 
@@ -16,7 +15,6 @@ var (
 	calctaruni  = flag.Bool("calctaruni", false, "calculate the target units by using ml, perc and taruni\na.k.a. 'CalcTargetUnits()'")
 	calctarperc = flag.Bool("calctarperc", false, "calculate the target percentage by using ml, perc and tarperc\na.k.a. 'CalcTargetPercent()'")
 	calctarml   = flag.Bool("calctarml", false, "calculate the target ml by using ml, perc, tarml\na.k.a. 'CalcTargetMl()'")
-	printjson   = flag.Bool("json", false, "print all the alcohol values as json")
 )
 
 func main() {
@@ -46,9 +44,5 @@ func main() {
 		alconvert.CalcTargetMl(av)
 	}
 
-	if *printjson {
-		alconvert.PrintJSON(av)
-	} else {
-		alconvert.PrintForHumans(av)
-	}
+	alconvert.PrintForHumans(av)
 }

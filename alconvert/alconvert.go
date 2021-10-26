@@ -1,8 +1,8 @@
 package alconvert
 
 import (
-	"encoding/json"
 	"fmt"
+	"time"
 )
 
 // Alcovalues contains all of the variables used when calculating and initial setup
@@ -38,6 +38,8 @@ type Alcovalues struct {
 	finalTargetMlPercent float32
 	// the difference between starting ml and target ml
 	finalTargetMlDiff float32
+	// time of last calculation
+	timestamp time.Time
 	////////////////////////////////////////////////////////////////////////
 }
 
@@ -104,16 +106,8 @@ func PrintForHumans(alcval *Alcovalues) {
 	if alcval.finalTargetMlDiff != 0 {
 		fmt.Printf("total amount of water added\nin alcohol for target ml:\n\t%g\n", alcval.finalTargetMlDiff)
 	}
-}
-
-// PrintJSON prints the Alcovalues in json format
-func PrintJSON(alcval *Alcovalues) {
-	ret, err := json.MarshalIndent(alcval, "", "\t")
-	if err == nil {
-		fmt.Println(string(ret))
-	} else {
-		fmt.Println(err)
-	}
+	fmt.Print("Last done calculation: ")
+	fmt.Println(alcval.timestamp)
 }
 
 // CalcGotUnits calculate units from the basic milliliters and
@@ -122,6 +116,7 @@ func CalcGotUnits(alcval *Alcovalues) {
 	if alcval.Percent != 0 {
 		alcval.gotUnits = (alcval.Milliliters * (alcval.Percent / 100)) / 10
 	}
+	alcval.timestamp = time.Now()
 }
 
 // CalcTargetUnits calculate amount of alcohol that needs to be
@@ -132,6 +127,7 @@ func CalcTargetUnits(alcval *Alcovalues) {
 	}
 
 	alcval.finalRemoveAmount = alcval.Milliliters - alcval.finalTargetUnitsMl
+	alcval.timestamp = time.Now()
 }
 
 // CalcTargetPercent calculate amount of alcohol (diluted) that needs
@@ -141,6 +137,7 @@ func CalcTargetPercent(alcval *Alcovalues) {
 		alcval.finalTargetPercent = (alcval.Percent/alcval.PercenTarget)*alcval.Milliliters - alcval.Milliliters
 	}
 	alcval.finalTargetPercentAll = alcval.finalTargetPercent + alcval.Milliliters
+	alcval.timestamp = time.Now()
 }
 
 // CalcTargetMl calculate the amount of dilution and final percentage
@@ -150,4 +147,5 @@ func CalcTargetMl(alcval *Alcovalues) {
 		alcval.finalTargetMlPercent = (alcval.Milliliters / alcval.TargetMl) * alcval.Percent
 	}
 	alcval.finalTargetMlDiff = alcval.TargetMl - alcval.Milliliters
+	alcval.timestamp = time.Now()
 }

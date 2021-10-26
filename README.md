@@ -146,3 +146,7 @@ Used for calculation results (unexported) and only used internally
 - `finalTargetMlDiff`
 
   - Total amount of water that needs to be added to reach `TargetMl`
+
+- `timestamp`
+
+  - Time of last calculation

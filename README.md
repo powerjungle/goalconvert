@@ -150,3 +150,7 @@ Used for calculation results (unexported) and only used internally
 - `timestamp`
 
   - Time of last calculation
+
+- `lastOperation`
+
+  - The last function used for calculating

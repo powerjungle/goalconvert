@@ -3,21 +3,22 @@ package alconvert
 import (
 	"fmt"
 	"testing"
+	"math/rand"
 )
 
 func checkAllZero(alcval *Alcovalues) bool {
-	if alcval.Milliliters == 0 &&
-		alcval.Percent == 0 &&
-		alcval.UnitTarget == 0 &&
-		alcval.PercenTarget == 0 &&
-		alcval.TargetMl == 0 &&
-		alcval.gotUnits == 0 &&
-		alcval.finalTargetUnitsMl == 0 &&
-		alcval.finalRemoveAmount == 0 &&
-		alcval.finalTargetPercent == 0 &&
-		alcval.finalTargetPercentAll == 0 &&
-		alcval.finalTargetMlPercent == 0 &&
-		alcval.finalTargetMlDiff == 0 {
+	if alcval.UserSet.Milliliters == 0 &&
+		alcval.UserSet.Percent == 0 &&
+		alcval.UserSet.UnitTarget == 0 &&
+		alcval.UserSet.PercenTarget == 0 &&
+		alcval.UserSet.TargetMl == 0 &&
+		alcval.calcGotUnits.gotUnits == 0 &&
+		alcval.calcTargetUnits.finalMl == 0 &&
+		alcval.calcTargetUnits.finalRemoveAmount == 0 &&
+		alcval.calcTargetPercent.finalTargetPercent == 0 &&
+		alcval.calcTargetPercent.finalTargetPercentAll == 0 &&
+		alcval.calcTargetMl.finalTargetMlPercent == 0 &&
+		alcval.calcTargetMl.finalTargetMlDiff == 0 {
 		return true
 	}
 	fmt.Println(alcval)
@@ -58,19 +59,22 @@ func TestDefaultOutput(t *testing.T) {
 func TestResetAV(t *testing.T) {
 	av := NewAV()
 
-	av.Milliliters = 1
-	av.Percent = 2
-	av.UnitTarget = 3
-	av.PercenTarget = 4
-	av.TargetMl = 5
+	av.UserSet.Milliliters = 1
+	av.UserSet.Percent = 2
+	av.UserSet.UnitTarget = 3
+	av.UserSet.PercenTarget = 4
+	av.UserSet.TargetMl = 5
 
-	av.gotUnits = 6
-	av.finalTargetUnitsMl = 7
-	av.finalRemoveAmount = 8
-	av.finalTargetPercent = 9
-	av.finalTargetPercentAll = 10
-	av.finalTargetMlPercent = 11
-	av.finalTargetMlDiff = 12
+	av.calcGotUnits.gotUnits = 6
+
+	av.calcTargetUnits.finalMl = 7
+	av.calcTargetUnits.finalRemoveAmount = 8
+
+	av.calcTargetPercent.finalTargetPercent = 9
+	av.calcTargetPercent.finalTargetPercentAll = 10
+
+	av.calcTargetMl.finalTargetMlPercent = 11
+	av.calcTargetMl.finalTargetMlDiff = 12
 
 	ResetAV(av)
 
@@ -82,39 +86,47 @@ func TestResetAV(t *testing.T) {
 
 func BenchmarkCalcGotUnits(b *testing.B) {
 	av := NewAV()
+	var randval float32
 	for i := 0; i < b.N; i++ {
-		av.Milliliters = float32(i)
-		av.Percent = float32(i)
+		randval = rand.Float32()
+		av.UserSet.Milliliters = float32(randval*100)
+		av.UserSet.Percent = float32(randval*10)
 		CalcGotUnits(av)
 	}
 }
 
 func BenchmarkCalcTargetUnits(b *testing.B) {
 	av := NewAV()
+	var randval float32
 	for i := 0; i < b.N; i++ {
-		av.Milliliters = float32(i)
-		av.Percent = float32(i)
-		av.UnitTarget = float32(i)
+		randval = rand.Float32()
+		av.UserSet.Milliliters = float32(randval*100)
+		av.UserSet.Percent = float32(randval*10)
+		av.UserSet.UnitTarget = float32(randval*10)
 		CalcTargetUnits(av)
 	}
 }
 
 func BenchmarkCalcTargetPercent(b *testing.B) {
 	av := NewAV()
+	var randval float32
 	for i := 0; i < b.N; i++ {
-		av.Milliliters = float32(i)
-		av.Percent = float32(i)
-		av.PercenTarget = float32(i)
+		randval = rand.Float32()
+		av.UserSet.Milliliters = float32(randval*100)
+		av.UserSet.Percent = float32(randval*10)
+		av.UserSet.PercenTarget = float32(randval*10)
 		CalcTargetPercent(av)
 	}
 }
 
 func BenchmarkCalcTargetMl(b *testing.B) {
 	av := NewAV()
+	var randval float32
 	for i := 0; i < b.N; i++ {
-		av.Milliliters = float32(i)
-		av.Percent = float32(i)
-		av.TargetMl = float32(i)
+		randval = rand.Float32()
+		av.UserSet.Milliliters = float32(randval*100)
+		av.UserSet.Percent = float32(randval*10)
+		av.UserSet.TargetMl = float32(randval*1000)
 		CalcTargetMl(av)
 	}
 }

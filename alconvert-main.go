@@ -22,11 +22,11 @@ func main() {
 
 	av := alconvert.NewAV()
 
-	av.Milliliters = float32(*ml)
-	av.Percent = float32(*perc)
-	av.UnitTarget = float32(*taruni)
-	av.PercenTarget = float32(*tarperc)
-	av.TargetMl = float32(*tarml)
+	av.UserSet.Milliliters = float32(*ml)
+	av.UserSet.Percent = float32(*perc)
+	av.UserSet.UnitTarget = float32(*taruni)
+	av.UserSet.PercenTarget = float32(*tarperc)
+	av.UserSet.TargetMl = float32(*tarml)
 
 	if *calcuni || *ml != 0 && *perc != 0 {
 		alconvert.CalcGotUnits(av)

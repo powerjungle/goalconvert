@@ -41,8 +41,8 @@ import "github.com/powerjungle/goalconvert/alconvert"
 
 func main() {
   av := alconvert.NewAV()
-  av.Milliliters = 200
-  av.Percent = 40
+  av.UserSet.Milliliters = 200
+  av.UserSet.Percent = 40
   alconvert.CalcGotUnits(av)
   alconvert.PrintForHumans(av)
 }
@@ -52,9 +52,9 @@ Calculate target units:
 
 ```go
 av := alconvert.NewAV()
-av.Milliliters = 200
-av.Percent = 40
-av.UnitTarget = 2
+av.UserSet.Milliliters = 200
+av.UserSet.Percent = 40
+av.UserSet.UnitTarget = 2
 alconvert.CalcTargetUnits(av)
 alconvert.PrintForHumans(av)
 ```
@@ -72,10 +72,6 @@ alconvert.PrintForHumans(av)
 - `PrintForHumans(avInstanceHere)`
 
   - Print a human readable-ish text explaining values which aren't 0 and which have changed in relation to the starter values (if calculations were done on them)
-
-- `PrintJson(avInstanceHere)`
-
-  - Print a JSON representation of all alcohol values
 
 - `CalcGotUnits(avInstanceHere)`
 
@@ -96,6 +92,8 @@ alconvert.PrintForHumans(av)
 ## Alcohol values
 
 Used to initialize calculations
+
+Apart of the "UserSet" structure:
 
 - `Milliliters`
 
@@ -119,17 +117,23 @@ Used to initialize calculations
 
 Used for calculation results (unexported) and only used internally
 
+Apart of the "calcGotUnits" structure:
+
 - `gotUnits`
 
   - The units calculated from `Milliliters` and `Percent` by using `CalcGotUnits()`
 
-- `finalTargetUnitsMl`
+Apart of the "calcTargetUnits" structure:
+
+- `finalMl`
 
   - Amount of alcohol left after removing `FinalRemoveAmount` from `Milliliters` to reach `UnitTarget`
 
 - `finalRemoveAmount`
 
   - Amount of alcohol to be removed in order to reach `UnitTarget`
+
+Apart of the "calcTargetPercent" structure:
 
 - `finalTargetPercent`
 
@@ -139,6 +143,8 @@ Used for calculation results (unexported) and only used internally
 
   - Diluted alcohol left after adding `FinalTargetPercent` to reach `PercenTarget`
 
+Apart of the "calcTargetMl" structure:
+
 - `finalTargetMlPercent`
 
   - Alcohol becomes this percentage after adding water for `TargetMl`
@@ -146,6 +152,8 @@ Used for calculation results (unexported) and only used internally
 - `finalTargetMlDiff`
 
   - Total amount of water that needs to be added to reach `TargetMl`
+
+Apart of no extra structure:
 
 - `timestamp`
 

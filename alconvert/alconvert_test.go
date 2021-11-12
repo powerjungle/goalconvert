@@ -88,6 +88,10 @@ func BenchmarkCalcGotUnits(b *testing.B) {
 	av := NewAV()
 	var randval float32
 	for i := 0; i < b.N; i++ {
+		// since no seed is set in Go by default
+		// the seed gets set to 1, which means
+		// the random values don't change
+		// https://pkg.go.dev/math/rand#Seed
 		randval = rand.Float32()
 		av.UserSet.Milliliters = float32(randval*100)
 		av.UserSet.Percent = float32(randval*10)

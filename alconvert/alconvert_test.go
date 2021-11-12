@@ -2,8 +2,8 @@ package alconvert
 
 import (
 	"fmt"
-	"testing"
 	"math/rand"
+	"testing"
 )
 
 func checkAllZero(alcval *Alcovalues) bool {
@@ -93,8 +93,8 @@ func BenchmarkCalcGotUnits(b *testing.B) {
 		// the random values don't change
 		// https://pkg.go.dev/math/rand#Seed
 		randval = rand.Float32()
-		av.UserSet.Milliliters = float32(randval*100)
-		av.UserSet.Percent = float32(randval*10)
+		av.UserSet.Milliliters = float32(randval * 100)
+		av.UserSet.Percent = float32(randval * 10)
 		CalcGotUnits(av)
 	}
 }
@@ -104,9 +104,9 @@ func BenchmarkCalcTargetUnits(b *testing.B) {
 	var randval float32
 	for i := 0; i < b.N; i++ {
 		randval = rand.Float32()
-		av.UserSet.Milliliters = float32(randval*100)
-		av.UserSet.Percent = float32(randval*10)
-		av.UserSet.UnitTarget = float32(randval*10)
+		av.UserSet.Milliliters = float32(randval * 100)
+		av.UserSet.Percent = float32(randval * 10)
+		av.UserSet.UnitTarget = float32(randval * 10)
 		CalcTargetUnits(av)
 	}
 }
@@ -116,9 +116,9 @@ func BenchmarkCalcTargetPercent(b *testing.B) {
 	var randval float32
 	for i := 0; i < b.N; i++ {
 		randval = rand.Float32()
-		av.UserSet.Milliliters = float32(randval*100)
-		av.UserSet.Percent = float32(randval*10)
-		av.UserSet.PercenTarget = float32(randval*10)
+		av.UserSet.Milliliters = float32(randval * 100)
+		av.UserSet.Percent = float32(randval * 10)
+		av.UserSet.PercenTarget = float32(randval * 10)
 		CalcTargetPercent(av)
 	}
 }
@@ -128,9 +128,9 @@ func BenchmarkCalcTargetMl(b *testing.B) {
 	var randval float32
 	for i := 0; i < b.N; i++ {
 		randval = rand.Float32()
-		av.UserSet.Milliliters = float32(randval*100)
-		av.UserSet.Percent = float32(randval*10)
-		av.UserSet.TargetMl = float32(randval*1000)
+		av.UserSet.Milliliters = float32(randval * 100)
+		av.UserSet.Percent = float32(randval * 10)
+		av.UserSet.TargetMl = float32(randval * 1000)
 		CalcTargetMl(av)
 	}
 }

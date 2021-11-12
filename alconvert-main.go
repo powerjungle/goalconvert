@@ -9,12 +9,16 @@ var (
 	ml          = flag.Float64("ml", 0, "input milliliters\na.k.a. 'Milliliters'")
 	perc        = flag.Float64("perc", 0, "input percentage (concentration)\na.k.a. 'Percent'")
 	taruni      = flag.Float64("taruni", 0, "needed units (target units)\na.k.a. 'UnitTarget'")
-	tarperc     = flag.Float64("tarperc", 0, "needed percentage (target percentage/concentration)\na.k.a. 'PercenTarget'")
+	tarperc     = flag.Float64("tarperc", 0,
+		"needed percentage (target percentage/concentration)\na.k.a. 'PercenTarget'")
 	tarml       = flag.Float64("tarml", 0, "needed milliliters (target ml/amount)\na.k.a. 'TargetMl'")
 	calcuni     = flag.Bool("calcuni", false, "calculate the units by using ml and perc\na.k.a. 'CalcGotUnits()'")
-	calctaruni  = flag.Bool("calctaruni", false, "calculate the target units by using ml, perc and taruni\na.k.a. 'CalcTargetUnits()'")
-	calctarperc = flag.Bool("calctarperc", false, "calculate the target percentage by using ml, perc and tarperc\na.k.a. 'CalcTargetPercent()'")
-	calctarml   = flag.Bool("calctarml", false, "calculate the target ml by using ml, perc, tarml\na.k.a. 'CalcTargetMl()'")
+	calctaruni  = flag.Bool("calctaruni", false,
+		"calculate the target units by using ml, perc and taruni\na.k.a. 'CalcTargetUnits()'")
+	calctarperc = flag.Bool("calctarperc", false,
+		"calculate the target percentage by using ml, perc and tarperc\na.k.a. 'CalcTargetPercent()'")
+	calctarml   = flag.Bool("calctarml", false,
+		"calculate the target ml by using ml, perc, tarml\na.k.a. 'CalcTargetMl()'")
 )
 
 func main() {

@@ -162,3 +162,17 @@ Apart of no extra structure:
 - `lastOperation`
 
   - The last function used for calculating
+
+If you want to get the value of an unexported variable, use the function with the same name.
+
+So for example:
+
+```go
+av := alconvert.NewAV()
+av.UserSet.Milliliters = 200
+av.UserSet.Percent = 40
+alconvert.CalcGotUnits(av)
+fmt.Println(alconvert.GotUnits(av))
+```
+
+The reason they are unexported is to minimize confusion and the chance for corruption of the results.

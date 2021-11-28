@@ -30,7 +30,7 @@ type calcTargetUnits struct {
 }
 
 type calcTargetPercent struct {
-	// amount of water (in ml) to add in order to reach final_target_percent_all
+	// amount of water (in ml) to add in order to reach finalTargetPercentAll
 	finalTargetPercent float32
 
 	// total amount after adding water for target percent

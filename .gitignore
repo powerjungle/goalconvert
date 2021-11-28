@@ -1,5 +1,7 @@
+goalconvert
+alconvgui
 alconvert-cmd
-alconvert-cmd.exe
 alconvert-gui
-alconvert-gui.exe
+*.exe
+*.apk
 .idea/

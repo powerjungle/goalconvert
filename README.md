@@ -8,7 +8,9 @@ To use the terminal program, after compiling just do:
 
 To compile run this in the current directory (where the `README.md` file is):
 
-`go build alconvert-cmd.go && go build alconvert-gui.go`
+`go build .`
+
+If you want to build the gui, go to the `alconvgui` directory and run the same command.
 
 You will need Go 1.16 or later
 

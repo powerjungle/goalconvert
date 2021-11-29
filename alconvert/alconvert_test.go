@@ -31,25 +31,25 @@ func checkAllZero(alcval *Alcovalues) bool {
 func TestDefaultOutput(t *testing.T) {
 	av := NewAV()
 
-	CalcGotUnits(av)
+	av.CalcGotUnits()
 	ret := checkAllZero(av)
 	if ret != true {
 		t.Fatal("CalcGotUnits() doesn't keep all values to 0 without input")
 	}
 
-	CalcTargetUnits(av)
+	av.CalcTargetUnits()
 	ret = checkAllZero(av)
 	if ret != true {
 		t.Fatal("CalcTargetUnits() doesn't keep all values to 0 without input")
 	}
 
-	CalcTargetPercent(av)
+	av.CalcTargetPercent()
 	ret = checkAllZero(av)
 	if ret != true {
 		t.Fatal("CalcTargetPercent() doesn't keep all values to 0 without input")
 	}
 
-	CalcTargetMl(av)
+	av.CalcTargetMl()
 	ret = checkAllZero(av)
 	if ret != true {
 		t.Fatal("CalcTargetMl() doesn't keep all values to 0 without input")
@@ -76,7 +76,7 @@ func TestResetAV(t *testing.T) {
 	av.calcTargetMl.finalTargetMlPercent = 11
 	av.calcTargetMl.finalTargetMlDiff = 12
 
-	ResetAV(av)
+	av.ResetAV()
 
 	ret := checkAllZero(av)
 	if ret != true {
@@ -95,7 +95,7 @@ func BenchmarkCalcGotUnits(b *testing.B) {
 		randval = rand.Float32()
 		av.UserSet.Milliliters = float32(randval * 100)
 		av.UserSet.Percent = float32(randval * 10)
-		CalcGotUnits(av)
+		av.CalcGotUnits()
 	}
 }
 
@@ -107,7 +107,7 @@ func BenchmarkCalcTargetUnits(b *testing.B) {
 		av.UserSet.Milliliters = float32(randval * 100)
 		av.UserSet.Percent = float32(randval * 10)
 		av.UserSet.UnitTarget = float32(randval * 10)
-		CalcTargetUnits(av)
+		av.CalcTargetUnits()
 	}
 }
 
@@ -119,7 +119,7 @@ func BenchmarkCalcTargetPercent(b *testing.B) {
 		av.UserSet.Milliliters = float32(randval * 100)
 		av.UserSet.Percent = float32(randval * 10)
 		av.UserSet.PercenTarget = float32(randval * 10)
-		CalcTargetPercent(av)
+		av.CalcTargetPercent()
 	}
 }
 
@@ -131,6 +131,6 @@ func BenchmarkCalcTargetMl(b *testing.B) {
 		av.UserSet.Milliliters = float32(randval * 100)
 		av.UserSet.Percent = float32(randval * 10)
 		av.UserSet.TargetMl = float32(randval * 1000)
-		CalcTargetMl(av)
+		av.CalcTargetMl()
 	}
 }

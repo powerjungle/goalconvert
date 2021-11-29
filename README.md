@@ -45,8 +45,8 @@ func main() {
   av := alconvert.NewAV()
   av.UserSet.Milliliters = 200
   av.UserSet.Percent = 40
-  alconvert.CalcGotUnits(av)
-  alconvert.PrintForHumans(av)
+  av.CalcGotUnits()
+  av.PrintForHumans()
 }
 ```
 
@@ -57,8 +57,8 @@ av := alconvert.NewAV()
 av.UserSet.Milliliters = 200
 av.UserSet.Percent = 40
 av.UserSet.UnitTarget = 2
-alconvert.CalcTargetUnits(av)
-alconvert.PrintForHumans(av)
+av.CalcTargetUnits()
+av.PrintForHumans()
 ```
 
 ## Functions
@@ -67,27 +67,27 @@ alconvert.PrintForHumans(av)
 
   - Create a new instance with alcohol values set as 0
 
-- `ResetAV(avInstanceHere)`
+- `ResetAV()`
 
   - Reset an existing instance values back to 0
 
-- `PrintForHumans(avInstanceHere)`
+- `PrintForHumans()`
 
   - Print a human readable-ish text explaining values which aren't 0 and which have changed in relation to the starter values (if calculations were done on them)
 
-- `CalcGotUnits(avInstanceHere)`
+- `CalcGotUnits()`
 
   - Calculate `GotUnits` based on set `Milliliters` and `Percent`, these are the units as pure alcohol content present, 1 unit = 10ml pure alcohol
 
-- `CalcTargetUnits(avInstanceHere)`
+- `CalcTargetUnits()`
 
   - Calculate the amount of alcohol that needs to be removed so that the set `UnitTarget` can be reached
 
-- `CalcTargetPercent(avInstanceHere)`
+- `CalcTargetPercent()`
 
   - Calculate the diluted alcohol amount that needs to be reached in order to reach `PercenTarget`
 
-- `CalcTargetMl(avInstanceHere)`
+- `CalcTargetMl()`
 
   - Calculate if adding amount of water that is needed to reach `TargetMl`, what the percentage will be, and how much water needs to be added
 
@@ -173,8 +173,8 @@ So for example:
 av := alconvert.NewAV()
 av.UserSet.Milliliters = 200
 av.UserSet.Percent = 40
-alconvert.CalcGotUnits(av)
-fmt.Println(alconvert.GotUnits(av))
+av.CalcGotUnits()
+fmt.Println(av.GotUnits())
 ```
 
 The reason they are unexported is to minimize confusion and the chance for corruption of the results.

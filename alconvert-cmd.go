@@ -35,21 +35,21 @@ func main() {
 	av.UserSet.TargetMl = float32(*tarml)
 
 	if *calcuni || *ml != 0 && *perc != 0 {
-		alconvert.CalcGotUnits(av)
+		av.CalcGotUnits()
 
 		if *calctaruni || *taruni != 0 {
-			alconvert.CalcTargetUnits(av)
+			av.CalcTargetUnits()
 		}
 
 		if *calctarperc || *tarperc != 0 {
-			alconvert.CalcTargetPercent(av)
+			av.CalcTargetPercent()
 		}
 
 		if *calctarml || *tarml != 0 {
-			alconvert.CalcTargetMl(av)
+			av.CalcTargetMl()
 		}
 
-		alconvert.PrintForHumans(av)
+		av.PrintForHumans()
 	} else {
 		flag.PrintDefaults()
 		fmt.Println()

@@ -16,10 +16,10 @@ import (
 )
 
 func alcCalcAll(alcval *alconvert.Alcovalues) {
-	alconvert.CalcGotUnits(alcval)
-	alconvert.CalcTargetUnits(alcval)
-	alconvert.CalcTargetPercent(alcval)
-	alconvert.CalcTargetMl(alcval)
+	alcval.CalcGotUnits()
+	alcval.CalcTargetUnits()
+	alcval.CalcTargetPercent()
+	alcval.CalcTargetMl()
 }
 
 type allLabels struct {
@@ -45,13 +45,13 @@ func initAllLabels() *allLabels {
 }
 
 func resetAllLabels(alcoval *alconvert.Alcovalues, aLa *allLabels) {
-	aLa.unitsLabel.SetText(strconv.FormatFloat(float64(alconvert.GotUnits(alcoval)), 'f', -1, 32))
-	aLa.finalMlLabel.SetText(strconv.FormatFloat(float64(alconvert.FinalMl(alcoval)), 'f', -1, 32))
-	aLa.finalRemAmLabel.SetText(strconv.FormatFloat(float64(alconvert.FinalRemoveAmount(alcoval)), 'f', -1, 32))
-	aLa.finalTarPerc.SetText(strconv.FormatFloat(float64(alconvert.FinalTargetPercent(alcoval)), 'f', -1, 32))
-	aLa.finalTarPercA.SetText(strconv.FormatFloat(float64(alconvert.FinalTargetPercentAll(alcoval)), 'f', -1, 32))
-	aLa.finalTarMlP.SetText(strconv.FormatFloat(float64(alconvert.FinalTargetMlPercent(alcoval)), 'f', -1, 32))
-	aLa.finalTarMlD.SetText(strconv.FormatFloat(float64(alconvert.FinalTargetMlDiff(alcoval)), 'f', -1, 32))
+	aLa.unitsLabel.SetText(strconv.FormatFloat(float64(alcoval.GotUnits()), 'f', -1, 32))
+	aLa.finalMlLabel.SetText(strconv.FormatFloat(float64(alcoval.FinalMl()), 'f', -1, 32))
+	aLa.finalRemAmLabel.SetText(strconv.FormatFloat(float64(alcoval.FinalRemoveAmount()), 'f', -1, 32))
+	aLa.finalTarPerc.SetText(strconv.FormatFloat(float64(alcoval.FinalTargetPercent()), 'f', -1, 32))
+	aLa.finalTarPercA.SetText(strconv.FormatFloat(float64(alcoval.FinalTargetPercentAll()), 'f', -1, 32))
+	aLa.finalTarMlP.SetText(strconv.FormatFloat(float64(alcoval.FinalTargetMlPercent()), 'f', -1, 32))
+	aLa.finalTarMlD.SetText(strconv.FormatFloat(float64(alcoval.FinalTargetMlDiff()), 'f', -1, 32))
 }
 
 type inputWidgets struct {

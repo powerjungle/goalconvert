@@ -14,7 +14,7 @@ func NewAV() *Alcovalues {
 
 // ResetAV Reset values from an existing instance by going through all fields
 // No need for a new instance every time you need a fresh calculation
-func ResetAV(alcval *Alcovalues) {
+func (alcval *Alcovalues) ResetAV() {
 	alcval.UserSet.Milliliters = 0
 	alcval.UserSet.Percent = 0
 	alcval.UserSet.UnitTarget = 0
@@ -34,7 +34,7 @@ func ResetAV(alcval *Alcovalues) {
 }
 
 // PrintForHumans - Print Alcohol Values Human Readable (sorta)
-func PrintForHumans(alcval *Alcovalues) {
+func (alcval *Alcovalues) PrintForHumans() {
 	fmt.Println()
 	fmt.Println("-------------------- User set --------------------")
 	fmt.Println()
@@ -103,7 +103,7 @@ func PrintForHumans(alcval *Alcovalues) {
 
 // CalcGotUnits calculate units from the basic milliliters and
 // percentage in the Alcovalues struct
-func CalcGotUnits(alcval *Alcovalues) {
+func (alcval *Alcovalues) CalcGotUnits() {
 	if alcval.UserSet.Percent != 0 {
 		alcval.calcGotUnits.gotUnits = (alcval.UserSet.Milliliters * (alcval.UserSet.Percent / 100)) / 10
 	}
@@ -114,7 +114,7 @@ func CalcGotUnits(alcval *Alcovalues) {
 
 // CalcTargetUnits calculate amount of alcohol that needs to be
 // removed so that the target units can be reached
-func CalcTargetUnits(alcval *Alcovalues) {
+func (alcval *Alcovalues) CalcTargetUnits() {
 	if alcval.UserSet.UnitTarget != 0 && alcval.UserSet.Percent != 0 {
 		alcval.calcTargetUnits.finalMl = (alcval.UserSet.UnitTarget * 10) / (alcval.UserSet.Percent / 100)
 
@@ -127,7 +127,7 @@ func CalcTargetUnits(alcval *Alcovalues) {
 
 // CalcTargetPercent calculate amount of alcohol (diluted) that needs
 // to be reached so that the target percentage is reached
-func CalcTargetPercent(alcval *Alcovalues) {
+func (alcval *Alcovalues) CalcTargetPercent() {
 	if alcval.UserSet.Percent != 0 && alcval.UserSet.PercenTarget != 0 {
 		alcval.calcTargetPercent.finalTargetPercent = ((alcval.UserSet.Percent / alcval.UserSet.PercenTarget) *
 			alcval.UserSet.Milliliters) - alcval.UserSet.Milliliters
@@ -142,7 +142,7 @@ func CalcTargetPercent(alcval *Alcovalues) {
 
 // CalcTargetMl calculate the amount of dilution and final percentage
 // if we want to reach the target milliliters
-func CalcTargetMl(alcval *Alcovalues) {
+func (alcval *Alcovalues) CalcTargetMl() {
 	if alcval.UserSet.Milliliters != 0 && alcval.UserSet.TargetMl != 0 {
 		alcval.calcTargetMl.finalTargetMlPercent = (alcval.UserSet.Milliliters / alcval.UserSet.TargetMl) *
 			alcval.UserSet.Percent

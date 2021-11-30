@@ -9,7 +9,6 @@ import (
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/canvas"
 	"fyne.io/fyne/v2/container"
-	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 
 	"github.com/powerjungle/goalconvert/alconvert"
@@ -120,9 +119,14 @@ func makeIOCanvasObjects(iWs1 *inputWidgets, iWs2 *inputWidgets,
 	calcValueLabel1 *widget.Label, calcValueLabel2 *widget.Label,
 	calculatedLabel string, firstResultLabel string, secondResultLabel string) []fyne.CanvasObject {
 
+	co := []fyne.CanvasObject{}
+
+	cL := widget.NewLabel(calculatedLabel)
+	cL.TextStyle.Bold = true
+	co = append(co, cL)
+
 	label1 := widget.NewLabel(firstResultLabel)
 	label2 := widget.NewLabel(secondResultLabel)
-	label2spacer := layout.NewSpacer()
 
 	if firstResultLabel == "nope" {
 		label1.Hide()
@@ -130,44 +134,36 @@ func makeIOCanvasObjects(iWs1 *inputWidgets, iWs2 *inputWidgets,
 
 	if secondResultLabel == "nope" {
 		label2.Hide()
-		label2spacer.Hide()
 	}
 
-	co := []fyne.CanvasObject{}
-
-	line := canvas.NewLine(color.White)
-
-	cL := widget.NewLabel(calculatedLabel)
-	cL.TextStyle.Bold = true
-	co = append(co, cL)
-
-	if iWs1 != nil {
-		co = append(co, iWs1.amountLabel, iWs1.amountEntry, iWs1.amountSlider)
-	}
-
-	if iWs2 != nil {
-		co = append(co, iWs2.amountLabel, iWs2.amountEntry, iWs2.amountSlider)
-	}
-
-	cont1 := container.NewHBox(label1, label2spacer, label2)
-
-	cont2obj := []fyne.CanvasObject{}
+	cont1 := container.NewVBox()
+	cont2 := container.NewVBox()
 
 	if calcValueLabel1 != nil {
 		calcValueLabel1.TextStyle.Bold = true
-		cont2obj = append(cont2obj, calcValueLabel1)
+		cont1.Objects = append(cont1.Objects, label1, calcValueLabel1)
 	}
-
-	cont2obj = append(cont2obj, label2spacer)
 
 	if calcValueLabel2 != nil {
 		calcValueLabel2.TextStyle.Bold = true
-		cont2obj = append(cont2obj, calcValueLabel2)
+		cont2.Objects = append(cont2.Objects, label2, calcValueLabel2)
 	}
 
-	cont2 := container.NewHBox(cont2obj...)
+	co = append(co, canvas.NewLine(color.White),
+		canvas.NewLine(color.White),
+		cont1,
+		cont2,
+		canvas.NewLine(color.White))
 
-	co = append(co, cont1, cont2, line)
+	if iWs1 != nil {
+		sliderLabel1 := widget.NewLabel(iWs1.amountLabel.Text + " slider")
+		co = append(co, iWs1.amountLabel, iWs1.amountEntry, sliderLabel1, iWs1.amountSlider)
+	}
+
+	if iWs2 != nil {
+		sliderLabel2 := widget.NewLabel(iWs2.amountLabel.Text + " slider")
+		co = append(co, iWs2.amountLabel, iWs2.amountEntry, sliderLabel2, iWs2.amountSlider)
+	}
 
 	return co
 }

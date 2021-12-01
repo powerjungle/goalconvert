@@ -165,6 +165,8 @@ func makeIOCanvasObjects(iWs1 *inputWidgets, iWs2 *inputWidgets,
 		co = append(co, iWs2.amountLabel, iWs2.amountEntry, sliderLabel2, iWs2.amountSlider)
 	}
 
+	co = append(co, widget.NewLabel(""))
+
 	return co
 }
 

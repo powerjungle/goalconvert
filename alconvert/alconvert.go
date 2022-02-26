@@ -7,13 +7,12 @@ import (
 
 // The structures are in the structs.go file in the current directory.
 
-// NewAV Create a new instance of Alcovalues
+// Creates a new instance of the Alcovalues struct.
 func NewAV() *Alcovalues {
 	return &Alcovalues{}
 }
 
-// ResetAV Reset values from an existing instance by going through all fields
-// No need for a new instance every time you need a fresh calculation
+// Resets values from an existing instance by going through all fields.
 func (alcval *Alcovalues) ResetAV() {
 	alcval.UserSet.Milliliters = 0
 	alcval.UserSet.Percent = 0
@@ -23,21 +22,19 @@ func (alcval *Alcovalues) ResetAV() {
 
 	alcval.calcGotUnits.gotUnits = 0
 
-	alcval.calcTargetUnits.finalMl = 0
-	alcval.calcTargetUnits.finalRemoveAmount = 0
+	alcval.calcTargetUnits.gotTargUnitsFinalAmount = 0
+	alcval.calcTargetUnits.gotTargUnitsRemAmount = 0
 
-	alcval.calcTargetPercent.finalTargetPercent = 0
-	alcval.calcTargetPercent.finalTargetPercentAll = 0
+	alcval.calcTargetPercent.gotTargPercAddWater = 0
+	alcval.calcTargetPercent.gotTargPercAlcLeft = 0
 
-	alcval.calcTargetMl.finalTargetMlPercent = 0
-	alcval.calcTargetMl.finalTargetMlDiff = 0
+	alcval.calcTargetMl.gotTargMlNewAlcPerc = 0
+	alcval.calcTargetMl.gotTargMlNeededWater = 0
 }
 
 // PrintForHumans - Print Alcohol Values Human Readable (sorta)
 func (alcval *Alcovalues) PrintForHumans() {
-	fmt.Println()
-	fmt.Println("-------------------- User set --------------------")
-	fmt.Println()
+	fmt.Printf("----- User Set -----\n")
 	// Values set by user
 
 	if alcval.UserSet.Milliliters != 0 {
@@ -56,9 +53,7 @@ func (alcval *Alcovalues) PrintForHumans() {
 		fmt.Printf("needed milliliters (target ml/amount):\n\t%g\n", alcval.UserSet.TargetMl)
 	}
 
-	fmt.Println()
-	fmt.Println("-------------------- Calculations --------------------")
-	fmt.Println()
+	fmt.Printf("\n----- Calculations -----\n")
 	// Values set by functions after doing the calculations
 
 	if alcval.calcGotUnits.gotUnits != 0 {
@@ -66,43 +61,41 @@ func (alcval *Alcovalues) PrintForHumans() {
 	}
 
 	if alcval.lastOperation == "CalcTargetUnits" {
-		fmt.Printf("calculated amount of alcohol (in ml) to remove\nin order to reach the target "+
-			"units (at the same percentage):\n\t%g\n", alcval.calcTargetUnits.finalRemoveAmount)
+		fmt.Printf("calculated amount of alcohol (in ml) to remove,\nin order to reach the target "+
+			"units (at the same percentage):\n\t%g\n", alcval.calcTargetUnits.gotTargUnitsRemAmount)
 
-		fmt.Printf("total amount alcohol left after removing calculated alcohol for target units:"+
-			"\n\t%g\n", alcval.calcTargetUnits.finalMl)
+		fmt.Printf("total amount alcohol left,\nafter removing calculated alcohol for target units:"+
+			"\n\t%g\n", alcval.calcTargetUnits.gotTargUnitsFinalAmount)
 	}
 
 	if alcval.lastOperation == "CalcTargetPercent" {
-		fmt.Printf("calculated amount of water (in ml) to add, to reach target percentage:"+
-			"\n\t%g\n", alcval.calcTargetPercent.finalTargetPercent)
+		fmt.Printf("calculated amount of water (in ml) to add,\nto reach target percentage:"+
+			"\n\t%g\n", alcval.calcTargetPercent.gotTargPercAddWater)
 
-		fmt.Printf("total amount alcohol left after adding calculated water:"+
-			"\n\t%g\n", alcval.calcTargetPercent.finalTargetPercentAll)
+		fmt.Printf("total amount diluted alcohol left,\nafter adding calculated water:"+
+			"\n\t%g\n", alcval.calcTargetPercent.gotTargPercAlcLeft)
 	}
 
 	if alcval.lastOperation == "CalcTargetMl" {
-		fmt.Printf("alcohol becomes this percentage(concentration)\n"+
-			"after adding water for target ml:\n\t%g\n", alcval.calcTargetMl.finalTargetMlPercent)
+		fmt.Printf("alcohol becomes this percentage(concentration),\n"+
+			"after adding water for target ml:\n\t%g\n", alcval.calcTargetMl.gotTargMlNewAlcPerc)
 
-		fmt.Printf("total amount of water added in alcohol for target ml:"+
-			"\n\t%g\n", alcval.calcTargetMl.finalTargetMlDiff)
+		fmt.Printf("total amount of water added\nin alcohol for target ml:"+
+			"\n\t%g\n", alcval.calcTargetMl.gotTargMlNeededWater)
 	}
 
-	fmt.Println()
-	fmt.Println("-------------------- Timestamp --------------------")
-	fmt.Println()
+	fmt.Println("\nLast operation:", alcval.lastOperation)
+
+	fmt.Printf("\n----- Timestamp -----\n")
 
 	fmt.Print("Last calculation done: ")
 	fmt.Println(alcval.timestamp)
-
-	fmt.Println()
-	fmt.Println("-------------------- End --------------------")
-	fmt.Println()
 }
 
-// CalcGotUnits calculate units from the basic milliliters and
-// percentage in the Alcovalues struct
+// Calculates the resulting units using the
+// UserSet Milliliters and Percent.
+//
+// results: GotUnits
 func (alcval *Alcovalues) CalcGotUnits() {
 	if alcval.UserSet.Percent != 0 {
 		alcval.calcGotUnits.gotUnits = (alcval.UserSet.Milliliters * (alcval.UserSet.Percent / 100)) / 10
@@ -112,27 +105,33 @@ func (alcval *Alcovalues) CalcGotUnits() {
 	alcval.timestamp = time.Now()
 }
 
-// CalcTargetUnits calculate amount of alcohol that needs to be
-// removed so that the target units can be reached
+// Calculates the amount of alcohol that needs to be
+// removed, so that the UserSet UnitTarget can be reached.
+//
+// results: GotTargUnitsFinalAmount, GotTargUnitsRemAmount
 func (alcval *Alcovalues) CalcTargetUnits() {
 	if alcval.UserSet.UnitTarget != 0 && alcval.UserSet.Percent != 0 {
-		alcval.calcTargetUnits.finalMl = (alcval.UserSet.UnitTarget * 10) / (alcval.UserSet.Percent / 100)
+		alcval.calcTargetUnits.gotTargUnitsFinalAmount = (alcval.UserSet.UnitTarget * 10) /
+			(alcval.UserSet.Percent / 100)
 
-		alcval.calcTargetUnits.finalRemoveAmount = alcval.UserSet.Milliliters - alcval.calcTargetUnits.finalMl
+		alcval.calcTargetUnits.gotTargUnitsRemAmount = alcval.UserSet.Milliliters -
+			alcval.calcTargetUnits.gotTargUnitsFinalAmount
 	}
 
 	alcval.lastOperation = "CalcTargetUnits"
 	alcval.timestamp = time.Now()
 }
 
-// CalcTargetPercent calculate amount of alcohol (diluted) that needs
-// to be reached so that the target percentage is reached
+// Calculates the amount of diluted alcohol that needs
+// to be reached, so that the UserSet PercenTarget is reached.
+//
+// results: GotTargPercAddWater, GotTargPercAlcLeft
 func (alcval *Alcovalues) CalcTargetPercent() {
 	if alcval.UserSet.Percent != 0 && alcval.UserSet.PercenTarget != 0 {
-		alcval.calcTargetPercent.finalTargetPercent = ((alcval.UserSet.Percent / alcval.UserSet.PercenTarget) *
+		alcval.calcTargetPercent.gotTargPercAddWater = ((alcval.UserSet.Percent / alcval.UserSet.PercenTarget) *
 			alcval.UserSet.Milliliters) - alcval.UserSet.Milliliters
 
-		alcval.calcTargetPercent.finalTargetPercentAll = alcval.calcTargetPercent.finalTargetPercent +
+		alcval.calcTargetPercent.gotTargPercAlcLeft = alcval.calcTargetPercent.gotTargPercAddWater +
 			alcval.UserSet.Milliliters
 	}
 
@@ -140,14 +139,16 @@ func (alcval *Alcovalues) CalcTargetPercent() {
 	alcval.timestamp = time.Now()
 }
 
-// CalcTargetMl calculate the amount of dilution and final percentage
-// if we want to reach the target milliliters
+// Calculates the new alcohol percentage after dilution
+// and the water needed to reach the UserSet TargetMl.
+//
+// results: GotTargMlNewAlcPerc, GotTargMlNeededWater
 func (alcval *Alcovalues) CalcTargetMl() {
 	if alcval.UserSet.Milliliters != 0 && alcval.UserSet.TargetMl != 0 {
-		alcval.calcTargetMl.finalTargetMlPercent = (alcval.UserSet.Milliliters / alcval.UserSet.TargetMl) *
+		alcval.calcTargetMl.gotTargMlNewAlcPerc = (alcval.UserSet.Milliliters / alcval.UserSet.TargetMl) *
 			alcval.UserSet.Percent
 
-		alcval.calcTargetMl.finalTargetMlDiff = alcval.UserSet.TargetMl - alcval.UserSet.Milliliters
+		alcval.calcTargetMl.gotTargMlNeededWater = alcval.UserSet.TargetMl - alcval.UserSet.Milliliters
 	}
 
 	alcval.lastOperation = "CalcTargetMl"

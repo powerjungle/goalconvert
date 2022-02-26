@@ -22,27 +22,27 @@ type calcGotUnits struct {
 
 type calcTargetUnits struct {
 	// calculated milliliters needed for target units at same concentration
-	finalMl float32
+	gotTargUnitsFinalAmount float32
 
-	// calculated amount to remove, to get to finalMl
+	// calculated amount to remove, to get to gotTargUnitsFinalAmount
 	// this could be a negative number indicating amount to add
-	finalRemoveAmount float32
+	gotTargUnitsRemAmount float32
 }
 
 type calcTargetPercent struct {
-	// amount of water (in ml) to add in order to reach finalTargetPercentAll
-	finalTargetPercent float32
+	// amount of water (in ml) to add in order to reach gotTargPercAlcLeft
+	gotTargPercAddWater float32
 
 	// total amount after adding water for target percent
-	finalTargetPercentAll float32
+	gotTargPercAlcLeft float32
 }
 
 type calcTargetMl struct {
 	// if water is added this is the percent it becomes
-	finalTargetMlPercent float32
+	gotTargMlNewAlcPerc float32
 
 	// the difference between starting ml and target ml
-	finalTargetMlDiff float32
+	gotTargMlNeededWater float32
 }
 
 // Alcovalues contains all of the variables used when calculating and initial setup

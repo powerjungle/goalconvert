@@ -2,21 +2,52 @@
 
 Using this you can convert alcohol (drinkable) milliliters, percentage and units.
 
-To use the terminal program, after compiling just do:
+It can be used as a module for your own application or as a CLI or GUI application by itself.
 
-`./goalconvert -help`
+After installing/compiling of the CLI app don't forget to run: `goalconvert -help`
 
-To compile run this in the current directory (where the `README.md` file is):
+For installing or compiling the GUI, you'll need to install these packages:
+https://developer.fyne.io/started/#prerequisites
+
+#### Installation
+
+CLI: `go install github.com/powerjungle/goalconvert@latest`
+
+GUI: `go install github.com/powerjungle/goalconvert/alconvgui@latest`
+
+Package: `go get github.com/powerjungle/goalconvert/alconvert`
+
+#### Compilation
 
 `go build .`
 
-If you want to build the gui, go to the `alconvgui` directory and run the same command.
+For CLI run the command where the README is!
+
+For GUI run the command in the `alconvgui` directory!
 
 You will need Go 1.16 or later
+
+##### Build for Android
+
+Install the fyne CLI utility: `go install fyne.io/fyne/v2/cmd/fyne@latest`
+
+Run inside the `alconvgui` directory:
+`fyne package -os android -appID testing.alconvert`
+
+This will create an APK. You'll need to use "Android Debug Bridge".
+
+https://developer.android.com/studio/command-line/adb
+
+After connecting `adb` to your phone, run:
+`adb install alconvgui.apk`
+
+#### Testing
 
 If you want to run the tests, enter the "alconvert" directory and run:
 
 `go test`
+
+#### Benchmarks
 
 To run the benchmarks, enter the "alconvert" directory and run:
 
@@ -26,11 +57,11 @@ To run the benchmarks, enter the "alconvert" directory and run:
 
 Calculate units:
 
-`./goalconvert -ml 200 -perc 40`
+`goalconvert -ml 200 -perc 40`
 
 Calculate target units:
 
-`./goalconvert -ml 200 -perc 40 -taruni 2`
+`goalconvert -ml 200 -perc 40 -taruni 2`
 
 ## Using Module Example:
 
@@ -50,131 +81,7 @@ func main() {
 }
 ```
 
-Calculate target units:
+## Documentation
 
-```go
-av := alconvert.NewAV()
-av.UserSet.Milliliters = 200
-av.UserSet.Percent = 40
-av.UserSet.UnitTarget = 2
-av.CalcTargetUnits()
-av.PrintForHumans()
-```
+https://pkg.go.dev/github.com/powerjungle/goalconvert/alconvert
 
-## Functions
-
-- `NewAV()`
-
-  - Create a new instance with alcohol values set as 0
-
-- `ResetAV()`
-
-  - Reset an existing instance values back to 0
-
-- `PrintForHumans()`
-
-  - Print a human readable-ish text explaining values which aren't 0 and which have changed in relation to the starter values (if calculations were done on them)
-
-- `CalcGotUnits()`
-
-  - Calculate `GotUnits` based on set `Milliliters` and `Percent`, these are the units as pure alcohol content present, 1 unit = 10ml pure alcohol
-
-- `CalcTargetUnits()`
-
-  - Calculate the amount of alcohol that needs to be removed so that the set `UnitTarget` can be reached
-
-- `CalcTargetPercent()`
-
-  - Calculate the diluted alcohol amount that needs to be reached in order to reach `PercenTarget`
-
-- `CalcTargetMl()`
-
-  - Calculate if adding amount of water that is needed to reach `TargetMl`, what the percentage will be, and how much water needs to be added
-
-## Alcohol values
-
-Used to initialize calculations
-
-Apart of the "UserSet" structure:
-
-- `Milliliters`
-
-  - Starting milliliters of alcohol (for example beer: 500)
-
-- `Percent`
-
-  - Starting percentage of alcohol (for example beer: 5)
-
-- `UnitTarget`
-
-  - Units you want to reach by using `CalcTargetUnits()`
-
-- `PercenTarget`
-
-  - Percentage you want to reach by using `CalcTargetPercent()`
-
-- `TargetMl`
-
-  - Milliliters you want to reach by using `CalcTargetMl()`
-
-Used for calculation results (unexported) and only used internally
-
-Apart of the "calcGotUnits" structure:
-
-- `gotUnits`
-
-  - The units calculated from `Milliliters` and `Percent` by using `CalcGotUnits()`
-
-Apart of the "calcTargetUnits" structure:
-
-- `finalMl`
-
-  - Amount of alcohol left after removing `FinalRemoveAmount` from `Milliliters` to reach `UnitTarget`
-
-- `finalRemoveAmount`
-
-  - Amount of alcohol to be removed in order to reach `UnitTarget`
-
-Apart of the "calcTargetPercent" structure:
-
-- `finalTargetPercent`
-
-  - Amount of water to add in order to reach `PercenTarget`
-
-- `finalTargetPercentAll`
-
-  - Diluted alcohol left after adding `FinalTargetPercent` to reach `PercenTarget`
-
-Apart of the "calcTargetMl" structure:
-
-- `finalTargetMlPercent`
-
-  - Alcohol becomes this percentage after adding water for `TargetMl`
-
-- `finalTargetMlDiff`
-
-  - Total amount of water that needs to be added to reach `TargetMl`
-
-Apart of no extra structure:
-
-- `timestamp`
-
-  - Time of last calculation
-
-- `lastOperation`
-
-  - The last function used for calculating
-
-If you want to get the value of an unexported variable, use the function with the same name.
-
-So for example:
-
-```go
-av := alconvert.NewAV()
-av.UserSet.Milliliters = 200
-av.UserSet.Percent = 40
-av.CalcGotUnits()
-fmt.Println(av.GotUnits())
-```
-
-The reason they are unexported is to minimize confusion and the chance for corruption of the results.

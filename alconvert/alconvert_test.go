@@ -13,12 +13,12 @@ func checkAllZero(alcval *Alcovalues) bool {
 		alcval.UserSet.PercenTarget == 0 &&
 		alcval.UserSet.TargetMl == 0 &&
 		alcval.calcGotUnits.gotUnits == 0 &&
-		alcval.calcTargetUnits.finalMl == 0 &&
-		alcval.calcTargetUnits.finalRemoveAmount == 0 &&
-		alcval.calcTargetPercent.finalTargetPercent == 0 &&
-		alcval.calcTargetPercent.finalTargetPercentAll == 0 &&
-		alcval.calcTargetMl.finalTargetMlPercent == 0 &&
-		alcval.calcTargetMl.finalTargetMlDiff == 0 {
+		alcval.calcTargetUnits.gotTargUnitsFinalAmount == 0 &&
+		alcval.calcTargetUnits.gotTargUnitsRemAmount == 0 &&
+		alcval.calcTargetPercent.gotTargPercAddWater == 0 &&
+		alcval.calcTargetPercent.gotTargPercAlcLeft == 0 &&
+		alcval.calcTargetMl.gotTargMlNewAlcPerc == 0 &&
+		alcval.calcTargetMl.gotTargMlNeededWater == 0 {
 		return true
 	}
 	fmt.Println(alcval)
@@ -26,8 +26,8 @@ func checkAllZero(alcval *Alcovalues) bool {
 }
 
 // TestDefaultOutput tests whether when calling the functions
-// without entering any data in Alcovalues would return
-// the appropriate value
+// without entering any data in Alcovalues, the return
+// will have the appropriate values.
 func TestDefaultOutput(t *testing.T) {
 	av := NewAV()
 
@@ -67,14 +67,14 @@ func TestResetAV(t *testing.T) {
 
 	av.calcGotUnits.gotUnits = 6
 
-	av.calcTargetUnits.finalMl = 7
-	av.calcTargetUnits.finalRemoveAmount = 8
+	av.calcTargetUnits.gotTargUnitsFinalAmount = 7
+	av.calcTargetUnits.gotTargUnitsRemAmount = 8
 
-	av.calcTargetPercent.finalTargetPercent = 9
-	av.calcTargetPercent.finalTargetPercentAll = 10
+	av.calcTargetPercent.gotTargPercAddWater = 9
+	av.calcTargetPercent.gotTargPercAlcLeft = 10
 
-	av.calcTargetMl.finalTargetMlPercent = 11
-	av.calcTargetMl.finalTargetMlDiff = 12
+	av.calcTargetMl.gotTargMlNewAlcPerc = 11
+	av.calcTargetMl.gotTargMlNeededWater = 12
 
 	av.ResetAV()
 

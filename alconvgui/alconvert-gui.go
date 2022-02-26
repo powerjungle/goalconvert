@@ -23,7 +23,7 @@ func alcCalcAll(alcval *alconvert.Alcovalues) {
 
 type allLabels struct {
 	unitsLabel      *widget.Label
-	finalMlLabel    *widget.Label
+	finAmountLabel  *widget.Label
 	finalRemAmLabel *widget.Label
 	finalTarPerc    *widget.Label
 	finalTarPercA   *widget.Label
@@ -34,7 +34,7 @@ type allLabels struct {
 func initAllLabels() *allLabels {
 	return &allLabels{
 		unitsLabel:      widget.NewLabel("0"),
-		finalMlLabel:    widget.NewLabel("0"),
+		finAmountLabel:  widget.NewLabel("0"),
 		finalRemAmLabel: widget.NewLabel("0"),
 		finalTarPerc:    widget.NewLabel("0"),
 		finalTarPercA:   widget.NewLabel("0"),
@@ -45,12 +45,12 @@ func initAllLabels() *allLabels {
 
 func resetAllLabels(alcoval *alconvert.Alcovalues, aLa *allLabels) {
 	aLa.unitsLabel.SetText(strconv.FormatFloat(float64(alcoval.GotUnits()), 'f', -1, 32))
-	aLa.finalMlLabel.SetText(strconv.FormatFloat(float64(alcoval.FinalMl()), 'f', -1, 32))
-	aLa.finalRemAmLabel.SetText(strconv.FormatFloat(float64(alcoval.FinalRemoveAmount()), 'f', -1, 32))
-	aLa.finalTarPerc.SetText(strconv.FormatFloat(float64(alcoval.FinalTargetPercent()), 'f', -1, 32))
-	aLa.finalTarPercA.SetText(strconv.FormatFloat(float64(alcoval.FinalTargetPercentAll()), 'f', -1, 32))
-	aLa.finalTarMlP.SetText(strconv.FormatFloat(float64(alcoval.FinalTargetMlPercent()), 'f', -1, 32))
-	aLa.finalTarMlD.SetText(strconv.FormatFloat(float64(alcoval.FinalTargetMlDiff()), 'f', -1, 32))
+	aLa.finAmountLabel.SetText(strconv.FormatFloat(float64(alcoval.GotTargUnitsFinalAmount()), 'f', -1, 32))
+	aLa.finalRemAmLabel.SetText(strconv.FormatFloat(float64(alcoval.GotTargUnitsRemAmount()), 'f', -1, 32))
+	aLa.finalTarPerc.SetText(strconv.FormatFloat(float64(alcoval.GotTargPercAddWater()), 'f', -1, 32))
+	aLa.finalTarPercA.SetText(strconv.FormatFloat(float64(alcoval.GotTargPercAlcLeft()), 'f', -1, 32))
+	aLa.finalTarMlP.SetText(strconv.FormatFloat(float64(alcoval.GotTargMlNewAlcPerc()), 'f', -1, 32))
+	aLa.finalTarMlD.SetText(strconv.FormatFloat(float64(alcoval.GotTargMlNeededWater()), 'f', -1, 32))
 }
 
 type inputWidgets struct {
@@ -209,18 +209,18 @@ func main() {
 		aLa.unitsLabel,
 		nil,
 		"Calculated Units",
-		"Calculated Units using ml and %",
+		"Calculated Units using ml and %.",
 		"nope",
 	)
 
 	gotUnitTargetObjects := makeIOCanvasObjects(
 		unitTarInputWidgets,
 		nil,
-		aLa.finalMlLabel,
+		aLa.finAmountLabel,
 		aLa.finalRemAmLabel,
-		"Calculated Unit Target",
-		"ml for target units",
-		"removed ml for target",
+		"Calculated Units Target",
+		"Amount in ml alcohol left to reach target.",
+		"Amount in ml alcohol to be removed to reach target.",
 	)
 
 	gotPercTargetObjects := makeIOCanvasObjects(
@@ -229,8 +229,8 @@ func main() {
 		aLa.finalTarPerc,
 		aLa.finalTarPercA,
 		"Calculated Percent Target",
-		"Amount of Water To Add",
-		"Total Amount Left",
+		"Amount of water in ml to add, to reach the target.",
+		"Amount of diluted alcohol left after adding water, to reach the target.",
 	)
 
 	gotMlTargetObjects := makeIOCanvasObjects(
@@ -239,8 +239,8 @@ func main() {
 		aLa.finalTarMlP,
 		aLa.finalTarMlD,
 		"Calculated Milliliter Target",
-		"After Adding Water (%)",
-		"Difference between ml",
+		"Alcohol becomes this percentage, after adding water, to reach the target.",
+		"The amount of water that needs to be added, in order to reach the target.",
 	)
 	///////////////////////
 

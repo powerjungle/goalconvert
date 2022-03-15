@@ -7,6 +7,8 @@ import (
 	"github.com/powerjungle/goalconvert/alconvert"
 )
 
+var Version = "v1.0.0"
+
 var (
 	ml      = flag.Float64("ml", 0, "input milliliters\na.k.a. 'Milliliters'")
 	perc    = flag.Float64("perc", 0, "input percentage (concentration)\na.k.a. 'Percent'")
@@ -21,20 +23,25 @@ var (
 		"calculate the target percentage by using ml, perc and tarperc\na.k.a. 'CalcTargetPercent()'")
 	calctarml = flag.Bool("calctarml", false,
 		"calculate the target ml by using ml, perc, tarml\na.k.a. 'CalcTargetMl()'")
+	ver = flag.Bool("version", false, "get the current version number of the program")
 )
 
 func main() {
 	flag.Parse()
 
-	av := alconvert.NewAV()
-
-	av.UserSet.Milliliters = float32(*ml)
-	av.UserSet.Percent = float32(*perc)
-	av.UserSet.UnitTarget = float32(*taruni)
-	av.UserSet.PercenTarget = float32(*tarperc)
-	av.UserSet.TargetMl = float32(*tarml)
+	if *ver {
+		fmt.Println("goalconvert-cli", Version)
+	}
 
 	if *calcuni || *ml != 0 && *perc != 0 {
+		av := alconvert.NewAV()
+
+		av.UserSet.Milliliters = float32(*ml)
+		av.UserSet.Percent = float32(*perc)
+		av.UserSet.UnitTarget = float32(*taruni)
+		av.UserSet.PercenTarget = float32(*tarperc)
+		av.UserSet.TargetMl = float32(*tarml)
+
 		av.CalcGotUnits()
 
 		if *calctaruni || *taruni != 0 {
@@ -50,7 +57,7 @@ func main() {
 		}
 
 		av.PrintForHumans()
-	} else {
+	} else if !*ver {
 		flag.PrintDefaults()
 		fmt.Println()
 		fmt.Println("Example 1: ./goalconvert -ml 2000 -perc 5")

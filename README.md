@@ -1,59 +1,23 @@
-# Go Alcohol Converter
+# Go Alcohol Converter (module and CLI)
 
-Using this you can convert alcohol (drinkable) milliliters, percentage and units.
+Using this you can convert
+[alcohol (drinkable)](https://en.wikipedia.org/wiki/Alcohol_(drug))
+[millilitres](https://en.wikipedia.org/wiki/Litre#SI_prefixes_applied_to_the_litre),
+[percentage](https://en.wikipedia.org/wiki/Alcohol_by_volume) and
+[units](https://en.wikipedia.org/wiki/Unit_of_alcohol).
 
-It can be used as a module for your own application or as a CLI or GUI application by itself.
+It can be used as a module for your own application or
+as a CLI by itself.
 
-After installing/compiling of the CLI app don't forget to run: `goalconvert -help`
+You can checkout dosages for units here:
+https://psychonautwiki.org/wiki/Alcohol
 
-For installing or compiling the GUI, you'll need to install these packages:
-https://developer.fyne.io/started/#prerequisites
+This project is not for the endorsement of alcohol consumption.
+The aim is to help people get a perspective of what different amounts mean.
 
-#### Installation
+Stay safe!
 
-CLI: `go install github.com/powerjungle/goalconvert@latest`
-
-GUI: `go install github.com/powerjungle/goalconvert/alconvgui@latest`
-
-Package: `go get github.com/powerjungle/goalconvert/alconvert`
-
-#### Compilation
-
-`go build .`
-
-For CLI run the command where the README is!
-
-For GUI run the command in the `alconvgui` directory!
-
-You will need Go 1.16 or later
-
-##### Build for Android
-
-Install the fyne CLI utility: `go install fyne.io/fyne/v2/cmd/fyne@latest`
-
-Run inside the `alconvgui` directory:
-`fyne package -os android -appID testing.alconvert`
-
-This will create an APK. You'll need to use "Android Debug Bridge".
-
-https://developer.android.com/studio/command-line/adb
-
-After connecting `adb` to your phone, run:
-`adb install alconvgui.apk`
-
-#### Testing
-
-If you want to run the tests, enter the "alconvert" directory and run:
-
-`go test`
-
-#### Benchmarks
-
-To run the benchmarks, enter the "alconvert" directory and run:
-
-`go test -bench=.`
-
-## Using Terminal Program Example:
+## Using Terminal Program Example
 
 Calculate units:
 
@@ -63,7 +27,11 @@ Calculate target units:
 
 `goalconvert -ml 200 -perc 40 -taruni 2`
 
-## Using Module Example:
+Others:
+
+`goalconvert -help`
+
+## Using Module Example
 
 Calculate units:
 
@@ -81,7 +49,68 @@ func main() {
 }
 ```
 
-## Documentation
+## Module Documentation
 
 https://pkg.go.dev/github.com/powerjungle/goalconvert/alconvert
+
+## Dependencies
+
+If you have an already built binary from the "Releases" page,
+you don't need these.
+
+For Go compilation/installation you'll need this.
+
+You will need Go 1.17 or later.
+
+## Installation
+
+If you don't want or can't use the already built binaries
+in the "Releases" page.
+
+CLI: `go install github.com/powerjungle/goalconvert@latest`
+
+If you want to use as a module for your code.
+
+Module: `go get github.com/powerjungle/goalconvert/alconvert`
+
+## Compilation
+
+`go build .`
+
+Run the command where the `README.md` file is!
+
+## Testing
+
+If you want to run the tests, enter the "alconvert" directory and run:
+
+`go test`
+
+## Benchmarks
+
+To run the benchmarks, enter the "alconvert" directory and run:
+
+`go test -bench=.`
+
+## Releases
+
+The approprate packages need to be installed.
+Checkout [Dependencies](#dependencies)!
+
+To install Goreleaser: https://goreleaser.com/install/
+
+To do a release: https://goreleaser.com/cmd/goreleaser/
+
+The `.goreleaser.yaml` file is already done and is in the repo.
+
+If you don't want to release for all OSs and architecture or want for more,
+edit the `.goreleaser.yaml` file! Info on how to edit here:
+
+https://goreleaser.com/customization/build/
+
+All Go OS and architecture combos here:
+
+https://go.dev/doc/install/source#environment
+
+This needs to be tested every time it's changed, as not all builds work
+without some preparation.
 

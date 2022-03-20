@@ -7,7 +7,7 @@ import (
 	"github.com/powerjungle/goalconvert/alconvert"
 )
 
-var Version = "v1.0.0"
+var Version = "post-v1.0.0-dev"
 
 var (
 	ml      = flag.Float64("ml", 0, "input milliliters\na.k.a. 'Milliliters'")

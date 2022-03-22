@@ -32,7 +32,7 @@ func (alcval *Alcovalues) ResetAV() {
 	alcval.calcTargetMl.gotTargMlNeededWater = 0
 }
 
-// PrintForHumans - Print Alcohol Values Human Readable (sorta)
+// Print Alcohol Values Human Readable (sorta)
 func (alcval *Alcovalues) PrintForHumans() {
 	fmt.Printf("----- User Set -----\n")
 	// Values set by user

@@ -6,6 +6,13 @@ Using this you can convert
 [percentage](https://en.wikipedia.org/wiki/Alcohol_by_volume) and
 [units](https://en.wikipedia.org/wiki/Unit_of_alcohol).
 
+The units are the UK definition which you can checkout here:
+https://www.nhs.uk/live-well/alcohol-advice/calculating-alcohol-units/
+
+From the above link:
+"One unit equals 10ml or 8g of pure alcohol, which is around the amount of
+alcohol the average adult can process in an hour."
+
 It can be used as a module for your own application or
 as a CLI by itself.
 

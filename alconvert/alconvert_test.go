@@ -12,6 +12,7 @@ func checkAllZero(alcval *Alcovalues) bool {
 		alcval.UserSet.UnitTarget == 0 &&
 		alcval.UserSet.PercenTarget == 0 &&
 		alcval.UserSet.TargetMl == 0 &&
+		alcval.calcGotUnits.gotPure == 0 &&
 		alcval.calcGotUnits.gotUnits == 0 &&
 		alcval.calcTargetUnits.gotTargUnitsFinalAmount == 0 &&
 		alcval.calcTargetUnits.gotTargUnitsRemAmount == 0 &&
@@ -31,8 +32,14 @@ func checkAllZero(alcval *Alcovalues) bool {
 func TestDefaultOutput(t *testing.T) {
 	av := NewAV()
 
-	av.CalcGotUnits()
+	av.CalcPureAmount()
 	ret := checkAllZero(av)
+	if ret != true {
+		t.Fatal("CalcPureAmount() doesn't keep all values to 0 without input")
+	}
+
+	av.CalcGotUnits()
+	ret = checkAllZero(av)
 	if ret != true {
 		t.Fatal("CalcGotUnits() doesn't keep all values to 0 without input")
 	}
@@ -65,16 +72,17 @@ func TestResetAV(t *testing.T) {
 	av.UserSet.PercenTarget = 4
 	av.UserSet.TargetMl = 5
 
-	av.calcGotUnits.gotUnits = 6
+	av.calcGotUnits.gotPure = 6
+	av.calcGotUnits.gotUnits = 7
 
-	av.calcTargetUnits.gotTargUnitsFinalAmount = 7
-	av.calcTargetUnits.gotTargUnitsRemAmount = 8
+	av.calcTargetUnits.gotTargUnitsFinalAmount = 8
+	av.calcTargetUnits.gotTargUnitsRemAmount = 9
 
-	av.calcTargetPercent.gotTargPercAddWater = 9
-	av.calcTargetPercent.gotTargPercAlcLeft = 10
+	av.calcTargetPercent.gotTargPercAddWater = 10
+	av.calcTargetPercent.gotTargPercAlcLeft = 11
 
-	av.calcTargetMl.gotTargMlNewAlcPerc = 11
-	av.calcTargetMl.gotTargMlNeededWater = 12
+	av.calcTargetMl.gotTargMlNewAlcPerc = 12
+	av.calcTargetMl.gotTargMlNeededWater = 13
 
 	av.ResetAV()
 
@@ -84,7 +92,7 @@ func TestResetAV(t *testing.T) {
 	}
 }
 
-func BenchmarkCalcGotUnits(b *testing.B) {
+func BenchmarkCalcPureAmount(b *testing.B) {
 	av := NewAV()
 	var randval float32
 	for i := 0; i < b.N; i++ {
@@ -92,6 +100,17 @@ func BenchmarkCalcGotUnits(b *testing.B) {
 		// the seed gets set to 1, which means
 		// the random values don't change
 		// https://pkg.go.dev/math/rand#Seed
+		randval = rand.Float32()
+		av.UserSet.Milliliters = float32(randval * 100)
+		av.UserSet.Percent = float32(randval * 10)
+		av.CalcPureAmount()
+	}
+}
+
+func BenchmarkCalcGotUnits(b *testing.B) {
+	av := NewAV()
+	var randval float32
+	for i := 0; i < b.N; i++ {
 		randval = rand.Float32()
 		av.UserSet.Milliliters = float32(randval * 100)
 		av.UserSet.Percent = float32(randval * 10)

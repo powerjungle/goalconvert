@@ -48,6 +48,7 @@ func main() {
 		av.UserSet.PercenTarget = float32(*tarperc)
 		av.UserSet.TargetMl = float32(*tarml)
 
+		av.CalcPureAmount()
 		av.CalcGotUnits()
 
 		if *calctaruni || *taruni != 0 {

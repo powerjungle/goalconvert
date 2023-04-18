@@ -16,7 +16,9 @@ type UserSet struct {
 }
 
 type calcGotUnits struct {
-	// the calculated units using the present Ml and UserSet.Percent
+	// the calculated pure amount in ml using the present total ml and UserSet.Percent
+	gotPure float32
+	// the calculated units using the present total ml and UserSet.Percent
 	gotUnits float32
 }
 

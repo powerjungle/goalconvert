@@ -5,6 +5,12 @@ import "time"
 // The functions in here are used only for returning the values of unexported variables.
 // The reason they are unexported is to minimize confusion and potential corruption of the results.
 
+// Returns the pure amount in ml, calculated from UserSet Milliliters and Percent,
+// by using CalcPureAmount().
+func (alcval *Alcovalues) GotPure() float32 {
+	return alcval.calcGotUnits.gotPure
+}
+
 // Returns the units calculated from UserSet Milliliters and Percent,
 // by using CalcGotUnits().
 func (alcval *Alcovalues) GotUnits() float32 {

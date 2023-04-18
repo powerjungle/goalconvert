@@ -20,6 +20,7 @@ func (alcval *Alcovalues) ResetAV() {
 	alcval.UserSet.PercenTarget = 0
 	alcval.UserSet.TargetMl = 0
 
+	alcval.calcGotUnits.gotPure = 0
 	alcval.calcGotUnits.gotUnits = 0
 
 	alcval.calcTargetUnits.gotTargUnitsFinalAmount = 0
@@ -55,6 +56,10 @@ func (alcval *Alcovalues) PrintForHumans() {
 
 	fmt.Printf("\n----- Calculations -----\n")
 	// Values set by functions after doing the calculations
+
+	if alcval.calcGotUnits.gotPure != 0 {
+		fmt.Printf("calculated pure amount (in ml) using milliliters and percentage:\n\t%g\n", alcval.calcGotUnits.gotPure)
+	}
 
 	if alcval.calcGotUnits.gotUnits != 0 {
 		fmt.Printf("calculated units using milliliters and percentage:\n\t%g\n", alcval.calcGotUnits.gotUnits)
@@ -92,6 +97,18 @@ func (alcval *Alcovalues) PrintForHumans() {
 	fmt.Println(alcval.timestamp)
 }
 
+// Calculates the resulting pure amount using the
+// UserSet Milliliters and Percent.
+//
+// results: GotPure
+func (alcval *Alcovalues) CalcPureAmount() {
+	if alcval.UserSet.Percent != 0 {
+		alcval.calcGotUnits.gotPure = (alcval.UserSet.Milliliters * (alcval.UserSet.Percent / 100))
+	}
+	alcval.lastOperation = "CalcPureAmount"
+	alcval.timestamp = time.Now()
+}
+
 // Calculates the resulting units using the
 // UserSet Milliliters and Percent.
 //
@@ -100,7 +117,6 @@ func (alcval *Alcovalues) CalcGotUnits() {
 	if alcval.UserSet.Percent != 0 {
 		alcval.calcGotUnits.gotUnits = (alcval.UserSet.Milliliters * (alcval.UserSet.Percent / 100)) / 10
 	}
-
 	alcval.lastOperation = "CalcGotUnits"
 	alcval.timestamp = time.Now()
 }

@@ -45,7 +45,7 @@ Calculate units:
 ```go
 package main
 
-import "github.com/powerjungle/goalconvert/alconvert"
+import "github.com/powerjungle/goalconvert"
 
 func main() {
   av := alconvert.NewAV()
@@ -58,7 +58,7 @@ func main() {
 
 ## Module Documentation
 
-https://pkg.go.dev/github.com/powerjungle/goalconvert/alconvert
+https://pkg.go.dev/github.com/powerjungle/goalconvert
 
 ## Dependencies
 
@@ -67,18 +67,16 @@ you don't need these.
 
 For Go compilation/installation you'll need this.
 
-You will need Go 1.17 or later.
-
 ## Installation
 
 If you don't want or can't use the already built binaries
 in the "Releases" page.
 
-CLI: `go install github.com/powerjungle/goalconvert@latest`
+CLI: `go install github.com/powerjungle/goalconvert/cmd@latest`
 
 If you want to use as a module for your code.
 
-Module: `go get github.com/powerjungle/goalconvert/alconvert`
+Module: `go get github.com/powerjungle/goalconvert`
 
 ## Compilation
 
@@ -88,15 +86,11 @@ Run the command where the `README.md` file is!
 
 ## Testing
 
-If you want to run the tests, enter the "alconvert" directory and run:
-
-`go test`
+If you want to run the tests: `go test`
 
 ## Benchmarks
 
-To run the benchmarks, enter the "alconvert" directory and run:
-
-`go test -bench=.`
+To run the benchmarks: `go test -bench=.`
 
 ## Releases
 

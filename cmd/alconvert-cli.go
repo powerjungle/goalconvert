@@ -4,7 +4,7 @@ import (
 	"flag"
 	"fmt"
 
-	"github.com/powerjungle/goalconvert/alconvert"
+	"github.com/powerjungle/goalconvert"
 )
 
 const Version string = "post-v1.1.0-dev"

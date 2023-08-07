@@ -3,9 +3,9 @@ release:
 
 builds:
   -
-    main: .
+    main: ./cmd/
     id: "cli"
-    binary: goalconvert-cli
+    binary: alconv
     env:
       - CGO_ENABLED=0
     goos:

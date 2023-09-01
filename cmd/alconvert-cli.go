@@ -7,7 +7,7 @@ import (
 	"github.com/powerjungle/goalconvert"
 )
 
-const Version string = "v1.1.1"
+const Version string = "post-v1.1.1-dev"
 
 var (
 	ml = flag.Float64("ml", 0,
